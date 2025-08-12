@@ -1,0 +1,95 @@
+.checkout-form {
+
+    padding: 0 1em;
+
+    & > form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-width: 200mm;
+        margin: 1em auto;
+        gap: 1.5em 3em;
+    }
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        
+        & > label {
+            display: block;
+            font-size: var(--fs-s);
+            font-weight: var(--fw-b);
+            margin-bottom: .2em;
+        }
+
+        & > input, & > select {
+            border: 1px solid var(--burgundy-color);
+            padding: .5em .75em;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: .5em;
+            background-color: transparent;
+        }
+
+        & > input {
+            &:focus {
+                background-color: rgba(255,255,255,0.7);
+                box-shadow: 0 0 .2em var(--burgundy-color);
+            }
+            &:-webkit-autofill, &:autofill {
+                background-color: #fdd !important;
+                -webkit-box-shadow: 0 0 0 1000px #fdd inset !important;
+                -webkit-text-fill-color: #000 !important;
+            }
+
+        }
+
+        & > select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="utf-8"%3F><svg version="1.1" xmlns="http://www.w3.org/2000/svg" fill="%23370501" height="20" width="20" viewBox="0 0 20 20"><path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path></svg>');
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            padding-right: 1.5em;
+            text-overflow: ellipsis;
+        }
+
+        & > span {
+            color: red;
+            font-size: var(--fs-s);
+            
+        }
+
+        &--day {
+            grid-column: 1 / 2;
+            grid-row: 4 / 5;
+        }
+    }
+
+    &__submit {
+        grid-column: 1 / 3;
+        display: flex;
+        justify-content: center;
+        padding-top: .5em;
+
+        & > button {
+            border: 1px solid var(--burgundy-color);
+            padding: .5em 1em;
+            border-radius: 1.5em;
+            cursor: pointer;
+            transition: color .3s, background-color .3s;
+
+            &:hover {
+                background-color: var(--burgundy-color);
+                color: white;
+            }
+        }
+    }
+}
+
+@media (max-width: 560px) {
+    .checkout-form > form {
+        display: flex;
+        flex-direction: column;
+    }
+}
