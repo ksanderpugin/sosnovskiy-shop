@@ -1,4 +1,4 @@
-export const CheckOutSchema = {
+export const CheckOutMeta = {
     firstName: {
         id: "firstName",
         type: "text",
@@ -42,7 +42,7 @@ export const CheckOutSchema = {
         },
         options: [
             {
-                value: "call",
+                value: '0',
                 title: {
                     uk: "Зателефонувати",
                     ru: "Позвонить",
@@ -50,7 +50,7 @@ export const CheckOutSchema = {
                 }
             },
             {
-                value: "viber",
+                value: '1',
                 title: {
                     uk: "Написати у Viber",
                     ru: "Написать в Viber",
@@ -58,7 +58,7 @@ export const CheckOutSchema = {
                 }
             },
             {
-                value: "telegram",
+                value: '2',
                 title: {
                     uk: "Написати у Telegram",
                     ru: "Написать в Telegram",
@@ -149,4 +149,26 @@ export const CheckOutSchema = {
             en: "Pick-up point"
         }
     },
+
+    dispatchDate: {
+        label: {
+            uk: "Дата відправлення",
+            ru: "Дата отправки",
+            en: "Dispatch date"
+        }
+    },
+
+    pickupDay: {
+        label: {
+            uk: "Дата самовивезення",
+            ru: "Дата самовывоза",
+            en: "Pickup date"
+        }
+    },
+
+    submitTitle: {
+        uk: "Оформіть замовлення",
+        ru: "Оформить заказ",
+        en: "Place Order"
+    }
 }

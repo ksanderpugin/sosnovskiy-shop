@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { BasketItem } from "../../types/BasketItem.types";
 
 // type OrderItemType = {
 //     posId: number;
@@ -23,7 +24,7 @@ type OrderType = {
     deliveryType: number;
     contactType: number;
     state: number;
-    basket: Record<string, number>;
+    basket: Record<string, BasketItem>;
     deliveryData: DeliveryType;
 }
 

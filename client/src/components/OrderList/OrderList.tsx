@@ -7,9 +7,10 @@ import { OrderItem } from "../OrderItem/OrderItem";
 import { useLang } from "../../hooks/useLang";
 import { Words } from "../../const/Words";
 import "./OrderList.scss";
+import type { BasketItem } from "../../types/BasketItem.types";
 
 type PropTypes = {
-    order?: Record<string, number>;
+    order?: Record<string, BasketItem>;
 }
 
 export const OrderList = ({order}: PropTypes) => {
@@ -70,9 +71,9 @@ export const OrderList = ({order}: PropTypes) => {
                 icon={product.iconLink}
                 name={lang == 'en' ? product.nameEN : (lang == 'ru' ? product.nameRU : product.nameUK)}
                 packInfo={`${Words.packNames[lang][pack.type]} ≈ ${pack.weight}g`}
-                num={basket[key]}
-                cost={product.packs[0].cost}
-                price={Math.round(product.packs[0].cost*product.packs[+keyData[2]].weight*basket[key]/1000)}
+                num={basket[key].num}
+                cost={basket[key].price}
+                price={Math.round(basket[key].price*product.packs[+keyData[2]].weight*basket[key].num/1000)}
                 disablad={!!order} />
         );
     }, [list, basket, lang, order]);
@@ -85,8 +86,8 @@ export const OrderList = ({order}: PropTypes) => {
             const dt = key.split('_');
             const product = list.find( item => item.id === +dt[1]);
             if (product) {
-                sum += product.packs[+dt[2]].weight * product.packs[+dt[2]].cost * basket[key] / 1000
-                num += basket[key];
+                sum += product.packs[+dt[2]].weight * basket[key].price * basket[key].num / 1000
+                num += basket[key].num;
             }
         });
         return [sum, num];

@@ -94,14 +94,14 @@ export const Words = {
     },
     orderStates: [
         {
-            uk: 'нове замовлення',
-            en: 'new',
-            ru: 'новый заказ'
+            uk: 'Нове замовлення',
+            en: 'New',
+            ru: 'Новый заказ'
         },
         {
-            uk: 'обробляється',
-            en: 'in progress',
-            ru: 'обрабатывается'
+            uk: 'Обробляється',
+            en: 'In progress',
+            ru: 'Обрабатывается'
         }
     ],
     deliveryTypes: [
@@ -138,6 +138,11 @@ export const Words = {
         ru: 'Сумма заказа указана приблизительно и может отличаться от итоговой на 10 - 15%',
         en: 'The order amount is approximate and may differ from the final amount by 10 - 15%'
     },
+    weightMessage: {
+        uk: 'Вага упаковки вказана приблизно та може відрізнятись від підсумкової на 10 - 15%',
+        ru: 'Вес упаковки указан приблизительно и может отличаться от итогового на 10 - 15%',
+        en: 'The weight of the package is approximate and may differ from the final amount by 10 - 15%'
+    },
     phone: {
         uk: "Номер телефону",
         ru: "Номер телефона",
@@ -152,5 +157,35 @@ export const Words = {
         uk: "Номер поштомату",
         ru: "Номер почтомата",
         en: "Post terminal"
+    },
+    pricePerKg: {
+        uk: "Ціна за кілограм",
+        ru: "Цена за килограмм",
+        en: "Price per kilogram"
+    },
+    packWeight: {
+        uk: "Вага упаковки",
+        ru: "Вес упаковки",
+        en: "Package weight"
+    },
+    selectPack: {
+        uk: "Виберіть упаковку",
+        ru: "Выберите упаковку",
+        en: "Select packaging"
+    },
+    orderStatus: {
+        uk: "Статус замовлення",
+        ru: "Статус заказа",
+        en: "Order status"
+    },
+    customer: {
+        uk: "Замовник",
+        ru: "Заказчик",
+        en: "Customer"
+    },
+    order: {
+        uk: "Замовлення",
+        ru: "Заказ",
+        en: "Order"
     }
 }

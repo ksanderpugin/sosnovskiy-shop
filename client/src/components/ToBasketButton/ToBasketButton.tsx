@@ -9,7 +9,8 @@ import type { Lang } from "../../types/Lang";
 
 type PropTypes = {
     id: number;
-    packId?: number | null;
+    packId?: number;
+    price?: number;
 }
 
 const inBasketStr = (num: number, lang: Lang): string => {
@@ -26,21 +27,21 @@ const inBasketStr = (num: number, lang: Lang): string => {
 }
 
 
-export const ToBasketButton = ( { id, packId }: PropTypes ) => {
+export const ToBasketButton = ( { id, packId, price }: PropTypes ) => {
 
     const lang = useLang() || 'uk';
 
-    const num = useSelector( (state: RootState) => state.basket.list[`pos_${id}_${packId}`] );
+    const basketItem = useSelector( (state: RootState) => state.basket.list[`pos_${id}_${packId}`] );
 
-    const numAll = useSelector( (state: RootState) => Object.keys(state.basket.list).reduce( (acc, item) => item.startsWith(`pos_${id}`) ? acc + state.basket.list[item] : acc, 0 ) );
+    const numAll = useSelector( (state: RootState) => Object.keys(state.basket.list).reduce( (acc, item) => item.startsWith(`pos_${id}`) ? acc + state.basket.list[item].num : acc, 0 ) );
 
     const dispatch = useDispatch<AppDispatch>();
 
     const addToBascketHandler: MouseEventHandler<HTMLDivElement> = (e) => {
-        if (typeof packId === "number") {
+        if (typeof packId === "number" && typeof price === "number") {
             e.stopPropagation();
-            dispatch(addToBasket({posId: id, packId: packId}));
-            console.log(`Add to basket ${id} ${packId}`);
+            dispatch(addToBasket({posId: id, packId: packId, price: price}));
+            console.log(`Add to basket ${id} ${packId} ${price}`);
         }
     }
 
@@ -54,10 +55,10 @@ export const ToBasketButton = ( { id, packId }: PropTypes ) => {
         }
     }
 
-    if (num) return (
+    if (basketItem) return (
         <div className="in-basket" onClick={inBasketClickHandler}>
             <span>-</span>
-            <b>{inBasketStr(num, lang)}</b>
+            <b>{inBasketStr(basketItem.num, lang)}</b>
             <span>+</span>
         </div>
     )

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Words } from "../../const/Words";
 import { useLang } from "../../hooks/useLang";
-import { CheckOutSchema } from "../../schimas/CheckOutSchema"
+import { CheckOutMeta } from "../../schimas/CheckOutSchema"
 import { CheckOutFormField } from "../CheckOutForm/CheckOutFormField"
 import Select, { type StylesConfig } from 'react-select';
 import { useDebounce } from "../../hooks/useDebounce";
@@ -26,13 +26,13 @@ export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
     const options = useMemo( () => {
         if (deliveryType === 'npo') 
             return offices
-                .filter( item => item.Description.startsWith("Відділення") || item.Description.startsWith("Пункт"))
+                .filter( item => !item.Description.startsWith("Поштомат"))
                 .map( item => ({value: item.WarehouseIndex + '; ' + item.Description, label: item.Description}));
-        else 
+        else if (deliveryType === 'npp')
             return offices
                 .filter( item => item.Description.startsWith("Поштомат"))
                 .map( item => ({value: item.WarehouseIndex + '; ' + item.Description, label: item.Description}));
-
+        return [];
     }, [deliveryType, offices]);
 
     const selectStyles: StylesConfig = {
@@ -53,12 +53,23 @@ export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
             }
         }),
         // indicatorSeparator: () => ({display: 'none'}),
+        clearIndicator: (styles, state) => ({ ...styles, 
+            color: 'var(--burgundy-color)',
+            opacity: state.isFocused ? '0.5' : '0.2',
+            transition: 'opacity .3s',
+            '&:hover': {
+                opacity: '0.5',
+                color: 'var(--burgundy-color)'
+            }
+        }),
         option: (styles, state) => ({...styles, backgroundColor: state.isFocused ? 'rgba(55,4,1,0.1)' : 'transparent'})
     }
 
     useEffect( () => {
         let searchCity = debounceCity.trim();
         if (/\(/.test(searchCity)) return;
+        if (lang !== 'en' && /^[a-zA-Z]+$/.test(searchCity)) return;
+        if (/[^\p{L}\s\-']+/gu.test(searchCity)) return;
         if (searchCity.length > 2) {
             if (/^[a-zA-Z ]+$/.test(searchCity) && lang === 'en') searchCity = transliterateEnToUa(searchCity);
             loadNovaPostCities(
@@ -92,35 +103,44 @@ export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
         }
     }
 
+    const clearCityHandler = () => {
+        setOffices([]);
+        setSelectedCity({ref:'', name:''});
+        setCity('');
+        setCities([]);
+    }
+
     return (
         <>
             <div className="checkout-form__item" style={ {position: 'relative'} }>
-                <label htmlFor={CheckOutSchema.city.id}>
-                    {CheckOutSchema.city.label[lang]}
+                <label htmlFor={CheckOutMeta.city.id}>
+                    {CheckOutMeta.city.label[lang]}
                 </label>
 
                 <input 
-                    id={CheckOutSchema.city.id} 
+                    id={CheckOutMeta.city.id} 
                     type="text" 
-                    placeholder={CheckOutSchema.city.placeholder[lang]} 
-                    name={CheckOutSchema.city.name}
+                    placeholder={CheckOutMeta.city.placeholder[lang]} 
+                    name={CheckOutMeta.city.name}
                     value={city}
                     onChange={e => setCity(e.target.value)} 
                     onFocus={() => {setCitiesShown(true)}}
-                    onBlur={() => {setCitiesShown(false)}}/>
+                    onBlur={() => {setTimeout(() => setCitiesShown(false), 200)}}/>
 
                 {cities.length > 0 && citiesShown && <div className="nova-post-cities" onClick={e => selectCityHandler(e.target as HTMLParagraphElement)}>
                     {cities.map( (item, index) => 
                         <p key={index} data-ref={item.Ref}>{getCityFullName(item, lang)}</p>
                     )}
                 </div>}
+
+                {city.length > 0 && selectedCity.ref && <div className="nova-post-cities__clear-city" onClick={clearCityHandler}/>}
             </div>
             
             {deliveryType === 'npa' && <CheckOutFormField                
-                id={CheckOutSchema.address.id}
-                label={CheckOutSchema.address.label[lang]}
-                name={CheckOutSchema.address.name}
-                placeholder={CheckOutSchema.address.placeholder[lang]} />}
+                id={CheckOutMeta.address.id}
+                label={CheckOutMeta.address.label[lang]}
+                name={CheckOutMeta.address.name}
+                placeholder={CheckOutMeta.address.placeholder[lang]} />}
 
             {['npo', 'npp'].includes(deliveryType) && 
                 <div className="checkout-form__item">

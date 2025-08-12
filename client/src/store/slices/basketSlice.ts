@@ -1,17 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { BasketItem } from "../../types/BasketItem.types";
 
-type BastetStateType = {
-    list: Record<string, number>;
+type BasketStateType = {
+    list: Record<string, BasketItem>;
 }
 
 const basketListJSON = localStorage.getItem('basket');
 const basketList = basketListJSON && JSON.parse(basketListJSON);
 
-const initialState: BastetStateType = {
+const initialState: BasketStateType = {
     list: basketList || {}
 }
 
-const saveBasket = (list: Record<string, number>) => {
+const saveBasket = (list: Record<string, BasketItem>) => {
     localStorage.setItem('basket', JSON.stringify(list));
 }
 
@@ -22,17 +23,20 @@ const basketSlice = createSlice({
         addToBasket: (state, action) => {
             const key = `pos_${action.payload.posId}_${action.payload.packId}`;
             if (key in state.list) {
-                state.list[key]++;
+                state.list[key].num++;
             } else {
-                state.list[key] = 1;
+                state.list[key] = {
+                    num: 1,
+                    price: action.payload.price
+                }
             }
             saveBasket(state.list);
         },
         takeFromBasket: (state, action) => {
             const key = `pos_${action.payload.posId}_${action.payload.packId}`;
             if (key in state.list) {
-                state.list[key]--;
-                if (state.list[key] < 1) delete state.list[key];
+                state.list[key].num--;
+                if (state.list[key].num < 1) delete state.list[key];
             }
             saveBasket(state.list);
         },

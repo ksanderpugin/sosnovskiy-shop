@@ -10,12 +10,29 @@ class Order extends DatabaseModel {
     public int $deliveryType, $contactType, $state, $payType, $payState;
     public array $basket, $deliveryData;
 
+    public function getContactByStr() {
+        return match($this->contactType) {
+            0 => 'Call',
+            1 => 'Viber',
+            2 => 'Telegram'
+        };
+    }
+
+    public function getDeliveryTypeStr() {
+        return match($this->deliveryType) {
+            0 => 'NP office',
+            1 => 'NP terminal',
+            2 => 'NP address',
+            3 => 'Pickup'
+        };
+    }
+
     public static function create($fullName, $phone, $basket, $deliveryType, $contactType, $dateDelivery, $deliveryData)
     {
         $order = new static(0, '', $fullName, $phone, date('Y-m-d'), $dateDelivery, $deliveryType, $contactType, 0, 0,0,$basket,$deliveryData);
         Database::getInst()->execute('LOCK TABLES `' . static::getTableName() . '` WRITE;');
         $order->save(false);
-        $order->number = MathService::getTimePlusNumber($order->bId, 34);
+        $order->number = MathService::getTimePlusNumber($order->bId);
         $order->save(false);
         Database::getInst()->execute('UNLOCK TABLES');
         return $order;

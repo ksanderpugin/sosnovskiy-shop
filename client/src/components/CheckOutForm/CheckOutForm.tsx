@@ -12,7 +12,7 @@ import { clearBasket } from "../../store/slices/basketSlice";
 import { shops } from "../../const/Shops";
 import { validateCheckoutForm } from "../../features/validateCheckOutForm";
 import { CheckOutFormField } from "./CheckOutFormField";
-import { CheckOutSchema } from "../../schimas/CheckOutSchema";
+import { CheckOutMeta } from "../../schimas/CheckOutSchema";
 import { NovaPostFields } from "../NovaPostFields/NovaPostFields";
 
 type DayItemType = {
@@ -25,13 +25,9 @@ type DayItemType = {
 export const CheckOutForm = () => {
 
     const lang = useLang() || 'uk';
-
     const basket = useSelector( (state:RootState) => state.basket.list );
-
     const dispatch = useDispatch<AppDispatch>();
-
     const pageNavigator = useNavigate();
-
     const [deliveryType, setDeliveryType] = useState('npo');
     const [days, setDays] = useState<DayItemType[]>([]);
     const [errors, setErrors] = useState< Record<string, string | false> >({});
@@ -62,20 +58,20 @@ export const CheckOutForm = () => {
         for (const error of Object.values(errs)) {
             if (error !== false) return;
         }
+        
         sendData.basket = JSON.stringify(basket);
-        console.log(sendData);
-        // fetch(`${import.meta.env.VITE_BASE_URL}order`, {
-        //     method: 'POST',
-        //     body: JSON.stringify(sendData)
-        // })
-        //     .then( resp => resp.json() )
-        //     .then( data => {
-        //         if (data.ok) {
-        //             dispatch(setOrder(data.order));
-        //             pageNavigator(getHref(lang, `/order/${data.order.number}`));
-        //             dispatch(clearBasket());
-        //         }
-        //     });
+        fetch(`${import.meta.env.VITE_BASE_URL}order`, {
+            method: 'POST',
+            body: JSON.stringify(sendData)
+        })
+        .then( resp => resp.json() )
+        .then( data => {
+            if (data.ok) {
+                dispatch(setOrder(data.order));
+                pageNavigator(getHref(lang, `/order/${data.order.number}`));
+                dispatch(clearBasket());
+            }
+        });
     }
 
     const fetchDates = useCallback( () => {
@@ -105,13 +101,13 @@ export const CheckOutForm = () => {
     const getField = (schimaKey: 'firstName' | 'lastName' | 'city') => {
         return (
             <CheckOutFormField 
-                key={CheckOutSchema[schimaKey].id}
-                id={CheckOutSchema[schimaKey].id}
-                label={CheckOutSchema[schimaKey].label[lang]}
-                name={CheckOutSchema[schimaKey].name}
-                require={CheckOutSchema[schimaKey].require}
-                placeholder={CheckOutSchema[schimaKey].placeholder[lang]}
-                error={errors[CheckOutSchema[schimaKey].name]}
+                key={CheckOutMeta[schimaKey].id}
+                id={CheckOutMeta[schimaKey].id}
+                label={CheckOutMeta[schimaKey].label[lang]}
+                name={CheckOutMeta[schimaKey].name}
+                require={CheckOutMeta[schimaKey].require}
+                placeholder={CheckOutMeta[schimaKey].placeholder[lang]}
+                error={errors[CheckOutMeta[schimaKey].name]}
                 onBlur={onBlurHandler} />
         )
     }
@@ -139,17 +135,17 @@ export const CheckOutForm = () => {
                 </div>
                 
                 <div className="checkout-form__item">
-                    <label htmlFor="contact-by">{CheckOutSchema.contactBy.label[lang]}</label>
+                    <label htmlFor="contact-by">{CheckOutMeta.contactBy.label[lang]}</label>
                     <select name="contact-by" id="contact-by">
-                        {CheckOutSchema.contactBy.options.map( item => 
+                        {CheckOutMeta.contactBy.options.map( item => 
                             <option key={item.value} value={item.value}>{item.title[lang]}</option>
                         )}
                     </select>
                 </div>
                 <div className="checkout-form__item">
-                    <label htmlFor="delivery-type">{CheckOutSchema.deliveryBy.label[lang]}</label>
+                    <label htmlFor="delivery-type">{CheckOutMeta.deliveryBy.label[lang]}</label>
                     <select id="delivery-type" name="delivery-type" value={deliveryType} onChange={ e => dtOnChange(e.target.value) }>
-                        {CheckOutSchema.deliveryBy.options.map( item => 
+                        {CheckOutMeta.deliveryBy.options.map( item => 
                             <option key={item.value} value={item.value}>{item.title[lang]}</option>
                         )}
                     </select>
@@ -159,15 +155,19 @@ export const CheckOutForm = () => {
                 
                 {deliveryType == 'pu' && 
                     <div className="checkout-form__item checkout-form__item--pp">
-                        <label htmlFor="shop">{CheckOutSchema.pickUpPoint.label[lang]}</label>
+                        <label htmlFor="shop">{CheckOutMeta.pickUpPoint.label[lang]}</label>
                         <select id="shop" name="shop">
                             {shops.map( item => <option value={item.name} key={item.name}>{item.address[lang]}</option>)}
                         </select>
                     </div>}
 
                 <div className="checkout-form__item checkout-form__item--day">
-                    <label>Delivery Day</label>
-                    <select name="delivery-day">
+                    <label htmlFor="dispatch-date">
+                        {deliveryType === 'pu' 
+                            ? CheckOutMeta.pickupDay.label[lang] 
+                            : CheckOutMeta.dispatchDate.label[lang]}
+                    </label>
+                    <select name="dispatch-date" id="dispatch-date">
                         {days.map( 
                             item => 
                                 <option value={item.date} key={item.date}>
@@ -178,7 +178,7 @@ export const CheckOutForm = () => {
                 </div>
 
                 <div className="checkout-form__submit">
-                    <button>Place Order</button>
+                    <button>{CheckOutMeta.submitTitle[lang]}</button>
                 </div>
             </form>
         </div>

@@ -58,7 +58,8 @@ export const ProductModal = () => {
                     </div>
                     <div className="product-modal__info-data">
                         <div className="product-modal__info-item">
-                            <p className="product-modal__info-packs">
+                            {product.packs.length > 1 && <p className="product-modal__info-packs">
+                                <u>{Words.selectPack[lang]}:</u>
                                 {product.packs.map( (item, index) => {
                                     return (
                                         <span 
@@ -66,22 +67,22 @@ export const ProductModal = () => {
                                             data-select={packIndex == index} 
                                             onClick={() => setPackIndex(index)}>
                                                 
-                                                {Words.packNames[lang][item.type]} ≈ {item.weight}g
+                                                {Words.packNames[lang][item.type]} {item.weight}{lang === 'en' ? 'g' : 'г'}*
                                         </span>
                                     )
                                 })}
-                            </p>
+                            </p>}
                             <div className="product-modal__info-price-and-basket">
                                 <div className="product-modal__info-price">
                                     <p>
-                                        <span>{product.packs[0].cost}</span>
-                                        грн/kg
+                                        <span>{price}</span>
+                                        {lang === 'en' ? 'UAH per pack' : 'грн/уп'}
                                     </p>
-                                    <p>
+                                    {/* <p>
                                         (≈ {price} грн/уп)
-                                    </p>
+                                    </p> */}
                                 </div>
-                                <ToBasketButton id={product.id} packId={packIndex}/>
+                                <ToBasketButton id={product.id} packId={packIndex} price={product.packs[0].cost}/>
                             </div>
                         </div>
                         <div className="product-modal__info-item">
@@ -91,10 +92,13 @@ export const ProductModal = () => {
                             </p>
                         </div>
                         <div className="product-modal__info-item">
+                            <p>{Words.pricePerKg[lang]}: {product.packs[0].cost} {lang === 'en' ? 'UAH' : 'грн'}</p>
+                            <p>{Words.packWeight[lang]}*: {product.packs[packIndex].weight}{lang === 'en' ? 'g' : 'г'}</p>
                             {getNutritionalNode(product.fat, product.protein, product.cal, lang)}
                         </div>
                     </div>
                 </div>
+                <p>* {Words.weightMessage[lang]}</p>
             </div>
         </div>
     )

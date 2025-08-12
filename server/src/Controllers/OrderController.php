@@ -17,44 +17,39 @@ class OrderController {
 
     public function create(): void {
         $data = Data::getRawData(true);
-        
         $basket = json_decode($data['basket'], true);
-        // $basketData = [];
-        // foreach ($basket as $key => $num) {
-        //     $dt = explode('_', $key);
-        //     $product = Product::getById((int) $dt[1]);
-        //     $pack = $product->packs[(int) $dt[2]];
-        //     $basketData[] = [
-        //         'posId' => $product->getId(),
-        //         'num' => $num,
-        //         'price' => $pack->cost,
-        //         'packType' => $pack->type,
-        //         'packWeight' => $pack->weight
-        //     ];
-        // }
+
+        $types = [
+            'npo' => 0,
+            'npp' => 1,
+            'npa' => 2,
+            'pu' => 3
+        ];
 
         $order = Order::create(
             $data['first-name'] . ' ' . $data['last-name'],
             $data['phone'],
             $basket,
-            $data['delivery-type'] == 'np' ? 1 : 0,
+            $data['delivery-type'] == $types[$data['delivery-type']],
             $data['contact-by'],
-            $data['delivery-day'],
+            $data['dispatch-date'],
             array_key_exists('shop', $data) ? 
                 [
                     'shop' => $data['shop']
                 ] :
                 [
                     'city' => $data['city'],
-                    'address' => $data['address']
+                    'address' => $data[$data['delivery-type']]
                 ]
         );
+
         $bot = new SosnovskiyBot();
-        $result = $bot->sendText(
+        $bot->sendText(
             208034373,
             'New order: ' . $order->id . PHP_EOL .
-            'Contact By: ' . $order->contactType . PHP_EOL . 
-            'phone: ' . $order->phone . PHP_EOL . 
+            'Contact by: ' . $order->getContactByStr() . PHP_EOL . 
+            'Phone: ' . $order->phone . PHP_EOL . 
+            'Delivery: ' . $order->getDeliveryTypeStr() . PHP_EOL .
             'Page: /order/' . $order->number
         );
         View::renderJSON([

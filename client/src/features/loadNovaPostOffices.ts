@@ -15,7 +15,6 @@ export const loadNovaPostOffices = (cityRef: string, success?: (data: NovaPostOf
     })
     .then( resp => resp.json() )
     .then( data => {
-        console.log(data);
         if (data.success && success) success(data.data);
     })
     .catch( error => {

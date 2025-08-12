@@ -36,7 +36,7 @@ export const ProductItem = ({id, title, image, price}: PropTypes) => {
                 <span>{price}</span>
                 грн/kg
             </p>
-            <ToBasketButton id={id} packId={product.packs.length > 1 ? null : 0} />
+            <ToBasketButton id={id} packId={product.packs.length > 1 ? undefined : 0} price={price}/>
         </div>
     );
 }

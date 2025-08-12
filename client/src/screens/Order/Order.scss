@@ -1,10 +1,47 @@
 .order-info {
 
-    & > p {
-        margin: .5em 1em;
+    &__data {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 1em .5em;
+        max-width: 80%;
+        box-sizing: border-box;
+        margin: 0 auto;
+        background-color: rgba(255,255,255,0.5);
+        padding: 1em;
+        border-radius: 1em;
+        box-shadow: 0 0 2em rgba(0,0,0,0.2);
+
+        & b {
+            white-space: nowrap;
+        }
     }
 
     & .order-list {
         margin-top: 2em;
+    }
+}
+
+@media (max-width: 560px) {
+    .order-info__data {
+        grid-template-columns: auto;
+        max-width: none;
+        width: calc(100% - 1em);
+        gap: 0;
+
+        & > p {
+
+            & > b {
+                display: block;
+                margin-top: 1em;
+            }
+
+            &:first-child {
+
+                & > b {
+                    margin-top: 0;
+                }
+            }
+        }
     }
 }
