@@ -86,7 +86,7 @@ export const OrderList = ({order}: PropTypes) => {
             const dt = key.split('_');
             const product = list.find( item => item.id === +dt[1]);
             if (product) {
-                sum += product.packs[+dt[2]].weight * basket[key].price * basket[key].num / 1000
+                sum += Math.round(product.packs[+dt[2]].weight * basket[key].price * basket[key].num / 1000);
                 num += basket[key].num;
             }
         });

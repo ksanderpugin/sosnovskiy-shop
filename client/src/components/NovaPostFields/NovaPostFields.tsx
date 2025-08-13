@@ -12,11 +12,14 @@ import { getCityFullName } from "../../features/getCityFullName";
 import { transliterateEnToUa } from "../../features/transliterateEnToUa";
 import { loadNovaPostOffices } from "../../features/loadNovaPostOffices";
 import type { NovaPostOffice } from "../../types/NovaPostOffice.types";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../store/strore";
 
 export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
 
     const lang = useLang() || 'uk';
-    const [city, setCity] = useState('');
+    const {city: defCity, address} = useSelector( (state: RootState) => state.user );
+    const [city, setCity] = useState(defCity || '');
     const debounceCity = useDebounce(city, 500);
     const [cities, setCities] = useState<NovaPostCities[]>([]);
     const [selectedCity, setSelectedCity] = useState({ref: '', name: ''});
@@ -133,13 +136,14 @@ export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
                     )}
                 </div>}
 
-                {city.length > 0 && selectedCity.ref && <div className="nova-post-cities__clear-city" onClick={clearCityHandler}/>}
+                {city.length > 0 && <div className="nova-post-cities__clear-city" onClick={clearCityHandler}/>}
             </div>
             
             {deliveryType === 'npa' && <CheckOutFormField                
                 id={CheckOutMeta.address.id}
                 label={CheckOutMeta.address.label[lang]}
                 name={CheckOutMeta.address.name}
+                defaultValue={address}
                 placeholder={CheckOutMeta.address.placeholder[lang]} />}
 
             {['npo', 'npp'].includes(deliveryType) && 
@@ -157,7 +161,8 @@ export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
                         menuPlacement="top" />}
                     {options.length === 0 && <input 
                         name={deliveryType} 
-                        type="text" />}
+                        type="text"
+                        defaultValue={address} />}
                 </div>}
         </>
     )

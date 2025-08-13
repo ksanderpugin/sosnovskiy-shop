@@ -13,7 +13,8 @@ import { shops } from "../../const/Shops";
 import { validateCheckoutForm } from "../../features/validateCheckOutForm";
 import { CheckOutFormField } from "./CheckOutFormField";
 import { CheckOutMeta } from "../../schimas/CheckOutSchema";
-import { NovaPostFields } from "../NovaPostFields/NovaPostFields";
+import { NovaPostFields, AcceptPolicyCheckbox } from "../";
+import { setUserData } from "../../store/slices/userSlice";
 
 type DayItemType = {
     dayNumber: number;
@@ -25,12 +26,16 @@ type DayItemType = {
 export const CheckOutForm = () => {
 
     const lang = useLang() || 'uk';
-    const basket = useSelector( (state:RootState) => state.basket.list );
+    const basket = useSelector( (state: RootState) => state.basket.list );
+    const userData = useSelector( (state: RootState) => state.user );
+
     const dispatch = useDispatch<AppDispatch>();
     const pageNavigator = useNavigate();
-    const [deliveryType, setDeliveryType] = useState('npo');
+    
+    const [deliveryType, setDeliveryType] = useState(userData.deliveryType || 'npo');
     const [days, setDays] = useState<DayItemType[]>([]);
     const [errors, setErrors] = useState< Record<string, string | false> >({});
+
 
     const dtOnChange = (type: string) => {
         if (deliveryType !== type) setDeliveryType(type);
@@ -58,6 +63,16 @@ export const CheckOutForm = () => {
         for (const error of Object.values(errs)) {
             if (error !== false) return;
         }
+        dispatch(setUserData({
+            firstName: sendData['first-name'],
+            lastName: sendData['last-name'],
+            phone: sendData['phone'],
+            contactType: sendData['contact-by'],
+            deliveryType: sendData['delivery-type'],
+            shop: sendData['shop'] || null,
+            city: sendData['city'] || null,
+            address: sendData['npo'] || sendData['npp'] || sendData['npa'] || null
+        }));
         
         sendData.basket = JSON.stringify(basket);
         fetch(`${import.meta.env.VITE_BASE_URL}order`, {
@@ -98,13 +113,14 @@ export const CheckOutForm = () => {
         fetchDates()
     }, [fetchDates]);
 
-    const getField = (schimaKey: 'firstName' | 'lastName' | 'city') => {
+    const getField = (schimaKey: 'firstName' | 'lastName' | 'city', defaultValue?: string) => {
         return (
             <CheckOutFormField 
                 key={CheckOutMeta[schimaKey].id}
                 id={CheckOutMeta[schimaKey].id}
                 label={CheckOutMeta[schimaKey].label[lang]}
                 name={CheckOutMeta[schimaKey].name}
+                defaultValue={defaultValue}
                 require={CheckOutMeta[schimaKey].require}
                 placeholder={CheckOutMeta[schimaKey].placeholder[lang]}
                 error={errors[CheckOutMeta[schimaKey].name]}
@@ -116,7 +132,7 @@ export const CheckOutForm = () => {
         <div className="checkout-form">
             <form onSubmit={onSubmitHandler}>
                 
-                {[getField('firstName'), getField('lastName')]}
+                {[getField('firstName', userData.firstName), getField('lastName', userData.lastName)]}
                 
                 <div className="checkout-form__item">
                     <label htmlFor="phone">{Words.phone[lang]}*</label>
@@ -128,6 +144,7 @@ export const CheckOutForm = () => {
                         name="phone"
                         id="phone"
                         autoComplete="phone"
+                        defaultValue={userData.phone}
                         onBlur={ e => onBlurHandler(e.target as HTMLInputElement)} 
                         lazy={false}
                     />
@@ -136,7 +153,7 @@ export const CheckOutForm = () => {
                 
                 <div className="checkout-form__item">
                     <label htmlFor="contact-by">{CheckOutMeta.contactBy.label[lang]}</label>
-                    <select name="contact-by" id="contact-by">
+                    <select name="contact-by" id="contact-by" defaultValue={userData.contactType}>
                         {CheckOutMeta.contactBy.options.map( item => 
                             <option key={item.value} value={item.value}>{item.title[lang]}</option>
                         )}
@@ -156,7 +173,7 @@ export const CheckOutForm = () => {
                 {deliveryType == 'pu' && 
                     <div className="checkout-form__item checkout-form__item--pp">
                         <label htmlFor="shop">{CheckOutMeta.pickUpPoint.label[lang]}</label>
-                        <select id="shop" name="shop">
+                        <select id="shop" name="shop" defaultValue={userData.shop || shops[0].name}>
                             {shops.map( item => <option value={item.name} key={item.name}>{item.address[lang]}</option>)}
                         </select>
                     </div>}
@@ -175,6 +192,10 @@ export const CheckOutForm = () => {
                                 </option>
                         )}
                     </select>
+                </div>
+
+                <div className="checkout-form__accept-policy">
+                    <AcceptPolicyCheckbox />
                 </div>
 
                 <div className="checkout-form__submit">

@@ -68,4 +68,11 @@ class MainController {
             'ok' => true
         ]);
     }
+
+    public function showPolicy(): void {
+        View::renderJSON([
+            'ok' => true,
+            'html' => View::getHtml('policy/uk.html')
+        ]);
+    }
 }

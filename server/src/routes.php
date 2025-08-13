@@ -6,6 +6,7 @@ return [
     '~^api/about/([enkru]{2})$~' => [\App\Controllers\MainController::class, 'getAboutPage'],
     '~^api/shipping/([enkru]{2})$~' => [\App\Controllers\MainController::class, 'getShippingPage'],
     '~^api/feedback$~' => [\App\Controllers\MainController::class, 'sendFeedBackMessage'],
+    '~^api/policy$~' => [\App\Controllers\MainController::class, 'showPolicy'],
 
     '~^api/products$~' => [\App\Controllers\ProductController::class, 'main'],
     '~^api/products/getByIds$~' => [\App\Controllers\ProductController::class, 'getByIds'],

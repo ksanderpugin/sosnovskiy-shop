@@ -1,24 +1,43 @@
 import { createSlice } from "@reduxjs/toolkit"
-import type { Lang } from "../../types/Lang";
 
 interface IUser {
-    lang: Lang
+    firstName: string;
+    lastName: string;
+    phone: string;
+    contactType: string;
+    deliveryType: string;
+    shop?: string;
+    city?: string;
+    address?: string;
 }
 
-const initialState: IUser = {
-    lang: localStorage.getItem('lang') as Lang ?? 'uk'
+const savedUserJSON = localStorage.getItem('ud');
+
+const initialState: IUser = JSON.parse(savedUserJSON || 'false') || {
+    firstName: '',
+    lastName: '',
+    phone: '',
+    contactType: '0',
+    deliveryType: 'npa'
 }
 
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setLang: (state, action) => {
-            state.lang = action.payload;
-            localStorage.setItem('lang', action.payload);
+        setUserData: (state, action) => {
+            state.firstName = action.payload.firstName;
+            state.lastName = action.payload.lastName;
+            state.phone = action.payload.phone;
+            state.contactType = action.payload.contactType;
+            state.deliveryType = action.payload.deliveryType;
+            state.shop = action.payload.shop || null;
+            state.city = action.payload.city || null;
+            state.address = action.payload.address || null;
+            localStorage.setItem('ud', JSON.stringify(state));
         }
     }
 });
 
-export const { setLang } = userSlice.actions;
+export const {setUserData} = userSlice.actions;
 export default userSlice.reducer;

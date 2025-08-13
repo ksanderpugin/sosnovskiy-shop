@@ -7,6 +7,7 @@ class Calendar
     public static function getDatesToDelivery() : array
     {
         $firstDate = 1;
+        if (date('H') > 17) $firstDate++;
         $time = time() + $firstDate*24*3600;
         $result = [];
         for ($i=0; $i<7; ) {

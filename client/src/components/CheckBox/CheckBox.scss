@@ -1,0 +1,40 @@
+.checkbox {
+
+    &-wrapper {
+        display: inline-flex;
+        gap: .5em;
+
+        & > input {
+            display: none;
+
+            &:checked + span.checkbox-icon > u {
+                width: 1.2em;
+            }
+        }
+    }
+
+    &-icon {
+        width: 1em;
+        height: 1em;
+        position: relative;
+        border: 1px solid var(--burgundy-color);
+        border-radius: .2em;
+
+        & > u {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            top: -0.2em;
+            width: 0;
+            z-index: 2;
+            overflow: hidden;
+            transition: width .3s;
+
+            & > svg {
+                fill: var(--burgundy-color);
+                width: 1.2em;
+                height: 1.2em;
+            }
+        }
+    }
+}

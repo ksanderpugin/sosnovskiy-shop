@@ -4,6 +4,7 @@ import productModalReducer from "./slices/productModalSlice";
 import basketReducer from "./slices/basketSlice";
 import orderReducer from "./slices/orderSlice";
 import mobileMenuReducer from "./slices/mobileMenuSlice";
+import userReducer from "./slices/userSlice";
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
         productModal: productModalReducer,
         basket: basketReducer,
         order: orderReducer,
-        mobileMenu: mobileMenuReducer
+        mobileMenu: mobileMenuReducer,
+        user: userReducer
     }
 });
 

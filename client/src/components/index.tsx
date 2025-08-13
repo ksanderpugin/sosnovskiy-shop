@@ -18,9 +18,12 @@ import { OrderItem } from "./OrderItem/OrderItem";
 import { CheckOutForm } from "./CheckOutForm/CheckOutForm";
 import { ShopMap } from "./ShopMap/ShopMap";
 import { Form } from "./Form/Form";
+import { CheckBox } from "./CheckBox/CheckBox";
+import { AcceptPolicyCheckbox } from "./AcceptPocityCheckbox/AcceptPolicyCheckbox";
 import { MobileMenu } from "./MobileMenu/MobileMenu";
+import { NovaPostFields } from "./NovaPostFields/NovaPostFields";
 
 export { Logo, Header, Footer, NavBar, SignButtons, MainPhone, LangSwitch, 
     BasketButton, CategoryList, ProductList, ProductItem, ToBasketButton, 
     BurgerButton, Loader, ProductModal, OrderList, OrderItem, CheckOutForm,
-    ShopMap, Form, MobileMenu }
+    ShopMap, Form, CheckBox, AcceptPolicyCheckbox, MobileMenu, NovaPostFields }
