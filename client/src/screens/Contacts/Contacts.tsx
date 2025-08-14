@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { useLang } from "../../hooks/useLang";
-import { NotFound404 } from "../NotFound404/NotFound404";
-import { getHref } from "../../features/getHref";
+import { NotFound404 } from "../";
 import { Form, ShopMap } from "../../components";
+import { getHref } from "../../features/getHref";
+import { showToast } from "../../features/showToast";
 import { FeedBackMeta, FeedBackSchema } from "../../schimas/FeedBackSchema";
-import { NotificationCenter } from "../../features/NotificationCenter/NotificationCenter";
-import "./Contacts.scss";
 import { Words } from "../../const/Words";
+import "./Contacts.scss";
 
 export const Contacts = () => {
 
@@ -23,7 +23,7 @@ export const Contacts = () => {
         .then( rData => {
             if (rData.ok) {
                 if (reset) reset();
-                NotificationCenter.showMessage('Your messege sent. Thanks');
+                showToast(`💬 ${Words.sentMes[lang]}`);
             }
         });     
     }
@@ -37,27 +37,27 @@ export const Contacts = () => {
                 </h1>
                 <div className="contacts-info">
                     <div className="contacts-info__content">
-                        <p>Contact Center</p>
+                        <p>{Words.contactCenter[lang]}</p>
                         <p>096-799-78-78</p>
                         <p>Viber | Telegram</p>
                         <p>
                             <b>shop@sosnovskiy.com</b>
                         </p>
-                        <p>Order processing:</p>
-                        <p>Mon-Sat from 10:00 to 20:00</p>
+                        <p>{Words.orderProcessing[lang]}:</p>
+                        <p>{Words.processingTime[lang]}</p>
                     </div>
                     <div className="contacts-info__map">
-                        <h2>Offline stores map</h2>
+                        <h2>{Words.shopsMap[lang]}</h2>
                         <ShopMap />
                     </div>
                 </div>
                 <div className="contacts-feedback">
-                    <h2>Feedback form</h2>
+                    <h2>{Words.feedbackForm[lang]}</h2>
                     <Form 
-                        schema={FeedBackSchema} 
-                        meta={FeedBackMeta} 
+                        schema={FeedBackSchema(lang)} 
+                        meta={FeedBackMeta(lang)} 
                         onSubmitHandler={onSubmit}
-                        buttonTitle="Submit" />
+                        buttonTitle={Words.submit[lang]} />
                 </div>
             </div>
         </section>

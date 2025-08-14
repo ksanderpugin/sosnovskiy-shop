@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "./NotFound404.scss";
 
 export const NotFound404 = () => (
     <div className="not-found-screen">

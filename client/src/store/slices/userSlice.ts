@@ -26,14 +26,14 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUserData: (state, action) => {
-            state.firstName = action.payload.firstName;
-            state.lastName = action.payload.lastName;
-            state.phone = action.payload.phone;
-            state.contactType = action.payload.contactType;
-            state.deliveryType = action.payload.deliveryType;
-            state.shop = action.payload.shop || null;
-            state.city = action.payload.city || null;
-            state.address = action.payload.address || null;
+            state.firstName = action.payload.firstName || '';
+            state.lastName = action.payload.lastName || '';
+            state.phone = action.payload.phone || '';
+            state.contactType = action.payload.contactType || '0';
+            state.deliveryType = action.payload.deliveryType || 'npa';
+            state.shop = action.payload.shop;
+            state.city = action.payload.city;
+            state.address = action.payload.address;
             localStorage.setItem('ud', JSON.stringify(state));
         }
     }

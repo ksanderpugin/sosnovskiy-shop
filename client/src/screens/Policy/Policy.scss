@@ -1,0 +1,30 @@
+.policy {
+    background-color: rgba(254,255,255,0.8);
+    padding: 1em;
+    box-sizing: border-box;
+
+    & h1 {
+        font-size: var(--fs-m);
+        font-weight: var(--fw-b);
+        text-align: center;
+    }
+
+    & h2 {
+        font-size: var(--fs-ms);
+        text-align: center;
+        margin-top: .3em;
+        margin-bottom: 1em;
+    }
+
+    & h3 {
+        font-weight: var(--fw-b);
+        text-transform: uppercase;
+        padding-top: 1.5em;
+    }
+
+    & p {
+        padding: .5em 0;
+        line-height: 1.3em;
+        text-align: justify;
+    }
+}

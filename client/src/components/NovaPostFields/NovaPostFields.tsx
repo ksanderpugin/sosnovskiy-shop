@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Words } from "../../const/Words";
 import { useLang } from "../../hooks/useLang";
 import { CheckOutMeta } from "../../schimas/CheckOutSchema"
 import { CheckOutFormField } from "../CheckOutForm/CheckOutFormField"
-import Select, { type StylesConfig } from 'react-select';
+import Select, { type SelectInstance, type StylesConfig } from 'react-select';
 import { useDebounce } from "../../hooks/useDebounce";
 import { loadNovaPostCities } from "../../features/loadNovaPostCities";
 import "./NovaPostFields.scss";
@@ -25,6 +25,8 @@ export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
     const [selectedCity, setSelectedCity] = useState({ref: '', name: ''});
     const [offices, setOffices] = useState<NovaPostOffice[]>([]);
     const [citiesShown, setCitiesShown] = useState(false);
+
+    const selectRef = useRef(null);
 
     const options = useMemo( () => {
         if (deliveryType === 'npo') 
@@ -65,6 +67,7 @@ export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
                 color: 'var(--burgundy-color)'
             }
         }),
+        menu: (styles) => ({ ...styles, zIndex: '3'}),
         option: (styles, state) => ({...styles, backgroundColor: state.isFocused ? 'rgba(55,4,1,0.1)' : 'transparent'})
     }
 
@@ -94,6 +97,14 @@ export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
             }
         );
     }, [selectedCity]);
+
+    useEffect( () => {
+        if (options.length && selectRef.current) {
+            const inp = selectRef.current as SelectInstance;
+            inp.focus();
+            inp.clearValue();
+        }
+    }, [options]);
 
     const selectCityHandler = (el: HTMLParagraphElement) => {
         const ref = el.dataset.ref;
@@ -152,6 +163,7 @@ export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
                         {deliveryType === 'npo' ? Words.npOffice[lang] : Words.npTerminal[lang]}
                     </label>
                     {options.length > 0 && <Select 
+                        ref={selectRef}
                         name={deliveryType} 
                         options={options} 
                         styles={selectStyles} 

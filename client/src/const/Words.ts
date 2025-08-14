@@ -187,5 +187,45 @@ export const Words = {
         uk: "Замовлення",
         ru: "Заказ",
         en: "Order"
+    },
+    contactCenter: {
+        uk: "Контактний центр",
+        ru: "Контактный центр",
+        en: "Contact Center"
+    },
+    orderProcessing: {
+        uk: "Обробка замовлень",
+        ru: "Оброботка заказов",
+        en: "Order processing"
+    },
+    processingTime: {
+        uk: "Пн-Сб з 10:00 до 20:00",
+        ru: "Пн-Сб с 10:00 до 20:00",
+        en: "Mon-Sat from 10:00 to 20:00"
+    },
+    shopsMap: {
+        uk: "Мапа наших офлайн магазинів",
+        ru: "Карта наших офлайн магазинов",
+        en: "Offline stores map"
+    },
+    feedbackForm: {
+        uk: "Форма зворотного зв`язку",
+        ru: "Форма обратной связи",
+        en: "Feedback form"
+    },
+    submit: {
+        uk: "Відправити",
+        ru: "Отправить",
+        en: "Submit"
+    },
+    sentMes: {
+        uk: "Ваше повідомлення надіслано. Дякуємо!",
+        ru: "Ваше сообщение отправлено. Спасибо!",
+        en: "Your messege sent. Thanks!"
+    },
+    shopThanks: {
+        uk: "Дякуємо за замовлення!",
+        ru: "Спасибо за заказ!",
+        en: "Thank you for shopping!"
     }
 }

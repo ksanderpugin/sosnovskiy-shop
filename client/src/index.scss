@@ -59,6 +59,35 @@ body {
 
 [data-shown="false"] {display: none;}
 
+.check-order{
+  inline-size: 3em;
+  block-size: 3em;
+  display: inline-block;
+}
+.check-order svg{ width: 100%; height: 100%; display: block; }
+
+.check-order__circle,
+.check-order__mark{
+  fill: none;
+  stroke: green;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
+.check-order.animate .check-order__circle{
+  animation: draw .7s ease-out forwards .3s;
+}
+.check-order.animate .check-order__mark{
+  animation: draw .7s ease-out forwards 1.1s;
+}
+
+@keyframes draw{
+  to{ stroke-dashoffset: 0; }
+}
+
 @media (min-width: 1200px) {
   body {
     font-size: 19px;

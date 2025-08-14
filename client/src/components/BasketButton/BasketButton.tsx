@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { Words } from "../../const/Words";
-import { useLang } from "../../hooks/useLang";
-import "./BasketButton.scss";
-import { getHref } from "../../features/getHref";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store/strore";
+import { useLang } from "../../hooks/useLang";
+import { getHref } from "../../features/getHref";
+import { Words } from "../../const/Words";
+import "./BasketButton.scss";
 
 export const BasketButton = () => {
 

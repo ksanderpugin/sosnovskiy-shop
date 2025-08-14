@@ -52,9 +52,38 @@ class OrderController {
             'Delivery: ' . $order->getDeliveryTypeStr() . PHP_EOL .
             'Page: /order/' . $order->number
         );
+
+        $h = date('H') + date('I');
+        $d = date('w');
+        $message = [
+            'uk' => 'Ваше замовлення прийняте та буде оброблено найближчим часом.',
+            'ru' => 'Ваш заказ принят и будет обработан в ближайшее время.',
+            'en' => 'Your order has been accepted and will be processed shortly.'
+        ];
+
+        if ($h < 10 || $h > 19 || $d == 0) {
+            $dayTd = ['сьогодні', 'сегодня', 'today'];
+            $dayTm = ['завтра', 'завтра', 'tomorrow'];
+            $dayMon = ['у понеділок','в понедельник','on Monday'];
+
+            $days = $dayTd;
+            if ($d == 0) $days = $dayTm;
+            else if ($h > 19) {
+                if ($d == 6) $days = $dayMon;
+                else $days = $dayTm;
+            }
+
+            $message = [
+                'uk' => 'Ваше замовлення прийняте та буде оброблено ' . $days[0] . ' з 10:00.',
+                'ru' => 'Ваш заказ принят и будет обработан ' . $days[1] . ' c 10:00.',
+                'en' => 'Your order has been accepted and will be processed ' . $days[2] . ' from 10am.'
+            ];
+        }
+
         View::renderJSON([
             'ok' => true,
-            'order' => $order
+            'order' => $order,
+            'mes' => $message
         ]);
     }
 

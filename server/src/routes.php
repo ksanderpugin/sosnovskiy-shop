@@ -15,4 +15,5 @@ return [
     '~^api/order$~' => [\App\Controllers\OrderController::class, 'main'],
     '~^api/order/([0-9a-zA-Z]+)$~' => [\App\Controllers\OrderController::class, 'main'],
 
+    '~^.*$~' => [\App\Controllers\MainController::class, 'main'],
 ];

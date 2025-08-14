@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { useLang } from "../../hooks/useLang";
 import { Words } from "../../const/Words";
 import { IMaskInput } from "react-imask";
@@ -15,6 +15,7 @@ import { CheckOutFormField } from "./CheckOutFormField";
 import { CheckOutMeta } from "../../schimas/CheckOutSchema";
 import { NovaPostFields, AcceptPolicyCheckbox } from "../";
 import { setUserData } from "../../store/slices/userSlice";
+import { showAcceptOrderMes } from "../../features/showAcceptOrderMes";
 
 type DayItemType = {
     dayNumber: number;
@@ -35,6 +36,8 @@ export const CheckOutForm = () => {
     const [deliveryType, setDeliveryType] = useState(userData.deliveryType || 'npo');
     const [days, setDays] = useState<DayItemType[]>([]);
     const [errors, setErrors] = useState< Record<string, string | false> >({});
+
+    const formRef = useRef<HTMLFormElement>(null);
 
 
     const dtOnChange = (type: string) => {
@@ -63,16 +66,6 @@ export const CheckOutForm = () => {
         for (const error of Object.values(errs)) {
             if (error !== false) return;
         }
-        dispatch(setUserData({
-            firstName: sendData['first-name'],
-            lastName: sendData['last-name'],
-            phone: sendData['phone'],
-            contactType: sendData['contact-by'],
-            deliveryType: sendData['delivery-type'],
-            shop: sendData['shop'] || null,
-            city: sendData['city'] || null,
-            address: sendData['npo'] || sendData['npp'] || sendData['npa'] || null
-        }));
         
         sendData.basket = JSON.stringify(basket);
         fetch(`${import.meta.env.VITE_BASE_URL}order`, {
@@ -83,6 +76,7 @@ export const CheckOutForm = () => {
         .then( data => {
             if (data.ok) {
                 dispatch(setOrder(data.order));
+                showAcceptOrderMes(data.mes[lang], lang);
                 pageNavigator(getHref(lang, `/order/${data.order.number}`));
                 dispatch(clearBasket());
             }
@@ -111,7 +105,28 @@ export const CheckOutForm = () => {
 
     useEffect( () => {
         fetchDates()
-    }, [fetchDates]);
+
+        window.onfocus = () => {fetchDates()};
+
+        const form = formRef.current;
+
+        return () => {
+            window.onfocus = null;
+            if (form) {
+                const fd = new FormData(form);
+                dispatch(setUserData({
+                    firstName: fd.get('first-name'),
+                    lastName: fd.get('last-name'),
+                    phone: fd.get('phone'),
+                    contactType: fd.get('contact-by'),
+                    deliveryType: fd.get('delivery-type'),
+                    shop: fd.get('shop') || null,
+                    city: fd.get('city') || null,
+                    address: fd.get('npo') || fd.get('npp') || fd.get('npa')}
+                ));
+            }
+        }
+    }, [fetchDates, dispatch]);
 
     const getField = (schimaKey: 'firstName' | 'lastName' | 'city', defaultValue?: string) => {
         return (
@@ -130,7 +145,7 @@ export const CheckOutForm = () => {
 
     return (
         <div className="checkout-form">
-            <form onSubmit={onSubmitHandler}>
+            <form onSubmit={onSubmitHandler} ref={formRef}>
                 
                 {[getField('firstName', userData.firstName), getField('lastName', userData.lastName)]}
                 

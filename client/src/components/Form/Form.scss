@@ -19,21 +19,21 @@
     }
 
     & input:not([type="checkbox"]), & textarea {
-        padding: 0.5em;
-        width: 100%;
-        box-sizing: border-box;
-        background-color: rgba(255,255,255,0.5);
         border: 1px solid var(--burgundy-color);
-        border-radius: 0.5em;
-        outline: none;
+            padding: .5em .75em;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: .5em;
+            background-color: transparent;
 
         &:focus {
-            // border-color: rgba(255, 255, 127, 1);
-            box-shadow: 0 0 .2em #821;
+            background-color: rgba(255,255,255,0.7);
+            box-shadow: 0 0 .2em var(--burgundy-color);
         }
-
-        &::placeholder {
-            color: #733;
+        &:-webkit-autofill, &:autofill {
+            background-color: #fdd !important;
+            -webkit-box-shadow: 0 0 0 1000px #fdd inset !important;
+            -webkit-text-fill-color: #000 !important;
         }
     }
 

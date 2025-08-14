@@ -24,7 +24,9 @@ export const Form = ({schema, meta, onSubmitHandler, buttonTitle, schemaRefine, 
         reset,
         formState: { errors, isSubmitting },
     } =  useForm({
-        resolver: zodResolver(schemaRefine || schema)
+        resolver: zodResolver(schemaRefine || schema),
+        mode: 'onBlur',
+        reValidateMode: 'onBlur'
     });
 
 

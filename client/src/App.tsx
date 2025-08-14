@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { Footer, Header, MobileMenu, ProductModal } from "./components";
-import { AboutUs, CheckOut, Contacts, NotFound404, Order, Products, ShippingAndPayment } from "./screens";
+import { AboutUs, CheckOut, Contacts, NotFound404, Order, Policy, Products, ShippingAndPayment } from "./screens";
 import "./App.scss";
 
 export const App = () => {
@@ -17,12 +18,14 @@ export const App = () => {
                     <Route path="/:lang?/contacts" element={<Contacts />} />
                     <Route path="/:lang?/checkout" element={<CheckOut />} />
                     <Route path="/:lang?/order/:number" element={<Order />} />
+                    <Route path="/:lang?/policy" element={<Policy />} />
                     <Route path="/*" element={<NotFound404 />} />
                 </Routes>
             </main>
             <Footer />
             <ProductModal />
             <MobileMenu />
+            <ToastContainer />
         </>
     );
 }
