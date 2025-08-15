@@ -9,6 +9,8 @@ interface IUser {
     shop?: string;
     city?: string;
     address?: string;
+    authorized?: boolean;
+    token?: string;
 }
 
 const savedUserJSON = localStorage.getItem('ud');
@@ -18,7 +20,8 @@ const initialState: IUser = JSON.parse(savedUserJSON || 'false') || {
     lastName: '',
     phone: '',
     contactType: '0',
-    deliveryType: 'npa'
+    deliveryType: 'npa',
+    authorized: false
 }
 
 const userSlice = createSlice({

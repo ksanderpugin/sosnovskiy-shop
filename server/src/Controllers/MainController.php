@@ -9,11 +9,20 @@ use App\Services\Data;
 
 class MainController {
     
-    public function main(): void {
-        View::renderJSON([
-            'ok' => true,
-            'msg' => 'Hello! This is Sosnovskiy Shop'
-        ]);
+    public function main($lang = 'uk'): void {
+        $title = match($lang){
+            'ru' => 'Сосновский 🥩 Интернет магазин крафтовой колбасной продукции',
+            'en' => 'Sosnovskiy 🥩 Online store of craft sausage products',
+            default => 'Сосновський 🥩 Інтернет магазин крафтової ковбасної продукції'
+        };
+        
+        View::renderHtml(
+            'main.php',
+            [
+                'lang' => $lang,
+                'title' => $title
+            ]
+        );
     }
 
     public function getShippingDates(): void {

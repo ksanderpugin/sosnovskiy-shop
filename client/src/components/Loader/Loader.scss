@@ -2,7 +2,6 @@
 .loader {
   --w:10ch;
   font-weight: bold;
-//   font-family: monospace;
   font-size: var(--fs-m);
   line-height: 1.2em;
   letter-spacing: var(--w);
@@ -11,6 +10,14 @@
   white-space: nowrap;
   color: #0000;
   animation: l17 2s infinite;
+
+  &-wrapper {
+      height: 100vh;
+      background-color: rgba(255,255,255,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
 }
 .loader:before {
   content:"Loading...";

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    '~^$~' => [\App\Controllers\MainController::class, 'main'],
+    // '~^$~' => [\App\Controllers\MainController::class, 'main'],
     '~^api/shippingDates$~' => [\App\Controllers\MainController::class, 'getShippingDates'],
     '~^api/about/([enkru]{2})$~' => [\App\Controllers\MainController::class, 'getAboutPage'],
     '~^api/shipping/([enkru]{2})$~' => [\App\Controllers\MainController::class, 'getShippingPage'],
@@ -15,5 +15,5 @@ return [
     '~^api/order$~' => [\App\Controllers\OrderController::class, 'main'],
     '~^api/order/([0-9a-zA-Z]+)$~' => [\App\Controllers\OrderController::class, 'main'],
 
-    '~^.*$~' => [\App\Controllers\MainController::class, 'main'],
+    '~^(ru|en)?\/?.*$~' => [\App\Controllers\MainController::class, 'main'],
 ];

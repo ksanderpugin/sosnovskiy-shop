@@ -14,13 +14,18 @@ class View {
         if (count($data) > 0) echo json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 
-    public static function getHtml($templatePath): string {
+    public static function getHtml($templatePath, $params = []): string {
         $path = __DIR__ . '/Templates/' . $templatePath;
         if (file_exists($path)) {
+            if (!empty($params)) extract($params);
             ob_start();
             include $path;
             return ob_get_clean();
         }
-        return '';
+        return 'Template not found';
+    }
+
+    public static function renderHtml($templatePath, $params = []): void {
+        echo self::getHtml($templatePath, $params);
     }
 }

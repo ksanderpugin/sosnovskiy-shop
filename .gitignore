@@ -25,3 +25,7 @@ Config.php
 *.njsproj
 *.sln
 *.sw?
+
+server/media*
+server/assets*
+*test.php
