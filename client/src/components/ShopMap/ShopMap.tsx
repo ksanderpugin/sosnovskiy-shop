@@ -1,11 +1,6 @@
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { shops } from "../../const/Shops";
 
-// const containerStyle = {
-//   width: "100%",
-//   aspectRatio: "2 / 1"
-// };
-
 const center = {
   lat: 50.50, 
   lng: 30.55

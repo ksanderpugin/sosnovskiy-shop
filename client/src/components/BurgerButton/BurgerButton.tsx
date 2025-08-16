@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
-import "./BurgerButton.scss";
 import type { AppDispatch } from "../../store/strore";
 import { showMobileMenu } from "../../store/slices/mobileMenuSlice";
+import "./BurgerButton.scss";
 
 export const BurgerButton = () => {
 

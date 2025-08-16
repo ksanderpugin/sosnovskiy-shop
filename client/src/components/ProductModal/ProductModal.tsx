@@ -1,12 +1,12 @@
+import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../store/strore";
+import { hideProductModal } from "../../store/slices/productModalSlice";
 import { useLang } from "../../hooks/useLang"
 import { ToBasketButton } from "../ToBasketButton/ToBasketButton"
-import type { AppDispatch, RootState } from "../../store/strore";
-import "./ProductModal.scss";
-import { useCallback, useState } from "react";
-import { Words } from "../../const/Words";
 import { getNutritionalNode } from "../../features/getNutritionalNode";
-import { hideProductModal } from "../../store/slices/productModalSlice";
+import { Words } from "../../const/Words";
+import "./ProductModal.scss";
 
 export const ProductModal = () => {
 

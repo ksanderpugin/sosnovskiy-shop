@@ -1,21 +1,21 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
-import { useLang } from "../../hooks/useLang";
-import { Words } from "../../const/Words";
-import { IMaskInput } from "react-imask";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../../store/strore";
-import "./CheckOutForm.scss";
-import { setOrder } from "../../store/slices/orderSlice";
 import { useNavigate } from "react-router-dom";
-import { getHref } from "../../features/getHref";
+import { useDispatch, useSelector } from "react-redux";
+import { useLang } from "../../hooks/useLang";
+import type { AppDispatch, RootState } from "../../store/strore";
 import { clearBasket } from "../../store/slices/basketSlice";
-import { shops } from "../../const/Shops";
-import { validateCheckoutForm } from "../../features/validateCheckOutForm";
-import { CheckOutFormField } from "./CheckOutFormField";
-import { CheckOutMeta } from "../../schimas/CheckOutSchema";
-import { NovaPostFields, AcceptPolicyCheckbox } from "../";
+import { setOrder } from "../../store/slices/orderSlice";
 import { setUserData } from "../../store/slices/userSlice";
+import { IMaskInput } from "react-imask";
+import { CheckOutFormField } from "./CheckOutFormField";
+import { NovaPostFields, AcceptPolicyCheckbox } from "../";
+import { validateCheckoutForm } from "../../features/validateCheckOutForm";
+import { getHref } from "../../features/getHref";
 import { showAcceptOrderMes } from "../../features/showAcceptOrderMes";
+import { CheckOutMeta } from "../../schimas/CheckOutSchema";
+import { shops } from "../../const/Shops";
+import { Words } from "../../const/Words";
+import "./CheckOutForm.scss";
 
 type DayItemType = {
     dayNumber: number;
@@ -47,7 +47,7 @@ export const CheckOutForm = () => {
     const onBlurHandler = (et: HTMLInputElement) => {
         const data = new FormData();
         data.append(et.name, et.value);
-        const [, errs] = validateCheckoutForm(data, et.name);
+        const [, errs] = validateCheckoutForm(data, lang, et.name);
         setErrors({...errors, ...errs});
         if (Object.values(errs)[0] !== false) {
             et.focus();
@@ -61,7 +61,7 @@ export const CheckOutForm = () => {
     const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
-        const [sendData, errs] = validateCheckoutForm(data);
+        const [sendData, errs] = validateCheckoutForm(data, lang);
         setErrors(errs);
         for (const error of Object.values(errs)) {
             if (error !== false) return;

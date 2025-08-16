@@ -1,12 +1,11 @@
 import { useEffect, useRef } from "react";
-import { useLang } from "../../hooks/useLang";
-import { ProductItem } from "../ProductItem/ProductItem";
-import "./ProductList.scss";
 import { useParams } from "react-router-dom";
-import { Loader } from "../Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store/strore";
 import { fetchProductList, resetList } from "../../store/slices/productsSlice";
+import { useLang } from "../../hooks/useLang";
+import { ProductItem, Loader } from "../";
+import "./ProductList.scss";
 
 export const ProductList = () => {
 

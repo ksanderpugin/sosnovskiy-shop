@@ -1,4 +1,8 @@
-export const validateCheckoutForm = (data: FormData, keyOnly: string | false = false) => {
+import { Words } from "../const/Words";
+import { CheckOutMeta } from "../schimas/CheckOutSchema";
+import type { Lang } from "../types/Lang";
+
+export const validateCheckoutForm = (data: FormData, lang: Lang, keyOnly: string | false = false) => {
     
     const errors: Record<string, string | false> = keyOnly ? {} : {
         'first-name': false,
@@ -11,17 +15,19 @@ export const validateCheckoutForm = (data: FormData, keyOnly: string | false = f
     const testField = (name: string, value: string) => {
         switch(name) {
             case 'first-name':
-                if (value.length < 3) errors[name] = 'First name cannot be shorter than 3 characters!';
+                if (value.length < 3) errors[name] = Words.fieldMinError(CheckOutMeta.firstName.label[lang])[lang];
+                else if (value.length > 32) errors[name] = Words.fieldMaxError(CheckOutMeta.firstName.label[lang])[lang];
                 break;
 
             case 'last-name':
-                if (value.length < 3) errors[name] = 'Last name cannot be shorter than 3 characters!';
+                if (value.length < 3) errors[name] = Words.fieldMinError(CheckOutMeta.lastName.label[lang])[lang];
+                else if (value.length > 32) errors[name] = Words.fieldMaxError(CheckOutMeta.lastName.label[lang])[lang];
                 break;
 
             case "phone":
                 // eslint-disable-next-line no-case-declarations
                 const pRE = /\+38 \(0\d{2}\) \d{3}-\d{2}-\d{2}/gm;
-                if (!pRE.test(value)) errors[name] = 'Enter valid phone number!';
+                if (!pRE.test(value)) errors[name] = Words.phoneError[lang];
                 break;
         }
     }

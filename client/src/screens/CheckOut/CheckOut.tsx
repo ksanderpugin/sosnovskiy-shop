@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { useLang } from "../../hooks/useLang";
-import { NotFound404 } from "../";
-import { CheckOutForm, OrderList } from "../../components";
-import { getHref } from "../../features/getHref";
-import { Words } from "../../const/Words";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store/strore";
+import { useLang } from "../../hooks/useLang";
+import { getHref } from "../../features/getHref";
+import { CheckOutForm, OrderList } from "../../components";
+import { NotFound404 } from "../";
+import { Words } from "../../const/Words";
 
 export const CheckOut = () => {
 

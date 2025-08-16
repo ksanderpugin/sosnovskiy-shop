@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
-import "./LangSwitch.scss";
 import { useLang } from "../../hooks/useLang";
 import { getHref } from "../../features/getHref";
+import "./LangSwitch.scss";
 
 export const LangSwitch = () => {
 

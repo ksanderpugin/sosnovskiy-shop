@@ -1,9 +1,9 @@
-import { useSelector } from "react-redux";
-import { Words } from "../../const/Words";
-import { useLang } from "../../hooks/useLang";
-import "./SignButtons.scss";
-import type { RootState } from "../../store/strore";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../store/strore";
+import { useLang } from "../../hooks/useLang";
+import { Words } from "../../const/Words";
+import "./SignButtons.scss";
 
 export const SignButtons = () => {
 

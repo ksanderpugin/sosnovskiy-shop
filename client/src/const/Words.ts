@@ -227,5 +227,24 @@ export const Words = {
         uk: "Дякуємо за замовлення!",
         ru: "Спасибо за заказ!",
         en: "Thank you for shopping!"
+    },
+    fieldMinError: (fieldName: string) => {
+        return {
+            uk: `${fieldName} не може бути коротшим за 3 символи!`,
+            ru: `${fieldName} не может быть короче 3 символов!`,
+            en: `${fieldName} cannot be shorter than 3 characters!`
+        }
+    },
+    fieldMaxError: (fieldName: string) => {
+        return {
+            uk: `${fieldName} не може бути довше за 32 символи!`,
+            ru: `${fieldName} не может быть длиннее 32 символов!`,
+            en: `${fieldName} cannot be longer than 32 characters!`
+        }
+    },
+    phoneError: {
+        uk: "Введіть дійсний номер телефону!",
+        ru: "Введите действительный номер телефона!",
+        en: "Enter valid phone number!"
     }
 }

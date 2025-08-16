@@ -1,6 +1,6 @@
+import { useLang } from "../../hooks/useLang";
 import { Words } from "../../const/Words";
 import "./Footer.scss";
-import { useLang } from "../../hooks/useLang";
 
 export const Footer = () => {
 

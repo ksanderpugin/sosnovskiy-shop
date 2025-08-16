@@ -1,19 +1,19 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Words } from "../../const/Words";
-import { useLang } from "../../hooks/useLang";
-import { CheckOutMeta } from "../../schimas/CheckOutSchema"
-import { CheckOutFormField } from "../CheckOutForm/CheckOutFormField"
-import Select, { type SelectInstance, type StylesConfig } from 'react-select';
-import { useDebounce } from "../../hooks/useDebounce";
-import { loadNovaPostCities } from "../../features/loadNovaPostCities";
-import "./NovaPostFields.scss";
-import type { NovaPostCities } from "../../types/NovaPostCities.types";
-import { getCityFullName } from "../../features/getCityFullName";
-import { transliterateEnToUa } from "../../features/transliterateEnToUa";
-import { loadNovaPostOffices } from "../../features/loadNovaPostOffices";
-import type { NovaPostOffice } from "../../types/NovaPostOffice.types";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store/strore";
+import Select, { type SelectInstance, type StylesConfig } from 'react-select';
+import { useLang } from "../../hooks/useLang";
+import { useDebounce } from "../../hooks/useDebounce";
+import { CheckOutMeta } from "../../schimas/CheckOutSchema"
+import { CheckOutFormField } from "../CheckOutForm/CheckOutFormField"
+import { loadNovaPostOffices } from "../../features/loadNovaPostOffices";
+import { getCityFullName } from "../../features/getCityFullName";
+import { transliterateEnToUa } from "../../features/transliterateEnToUa";
+import { loadNovaPostCities } from "../../features/loadNovaPostCities";
+import type { NovaPostCities } from "../../types/NovaPostCities.types";
+import type { NovaPostOffice } from "../../types/NovaPostOffice.types";
+import { Words } from "../../const/Words";
+import "./NovaPostFields.scss";
 
 export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
 

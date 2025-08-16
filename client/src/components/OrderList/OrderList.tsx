@@ -1,13 +1,12 @@
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux"
 import type { RootState } from "../../store/strore"
-import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ProductItemType } from "../../types/ProductItemType";
-import { Loader } from "../Loader/Loader";
-import { OrderItem } from "../OrderItem/OrderItem";
+import type { BasketItem } from "../../types/BasketItem.types";
+import { Loader, OrderItem } from "../";
 import { useLang } from "../../hooks/useLang";
 import { Words } from "../../const/Words";
 import "./OrderList.scss";
-import type { BasketItem } from "../../types/BasketItem.types";
 
 type PropTypes = {
     order?: Record<string, BasketItem>;

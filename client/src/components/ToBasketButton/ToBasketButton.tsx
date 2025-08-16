@@ -1,11 +1,11 @@
 import type { MouseEventHandler } from "react";
-import { Words } from "../../const/Words";
-import { useLang } from "../../hooks/useLang";
-import "./ToBasketButton.scss";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store/strore";
 import { addToBasket, takeFromBasket } from "../../store/slices/basketSlice";
 import type { Lang } from "../../types/Lang";
+import { useLang } from "../../hooks/useLang";
+import { Words } from "../../const/Words";
+import "./ToBasketButton.scss";
 
 type PropTypes = {
     id: number;

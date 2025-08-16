@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useLang } from "../../hooks/useLang";
-import "./Logo.scss";
 import { getHref } from "../../features/getHref";
+import "./Logo.scss";
 
 export const Logo = () => {
 

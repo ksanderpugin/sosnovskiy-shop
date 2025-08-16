@@ -1,9 +1,9 @@
 import type { MouseEventHandler } from "react";
-import { useLang } from "../../hooks/useLang";
-import "./OrderItem.scss";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../store/strore";
 import { addToBasket, takeFromBasket } from "../../store/slices/basketSlice";
+import { useLang } from "../../hooks/useLang";
+import "./OrderItem.scss";
 
 type PropTypes = {
     posId: number;

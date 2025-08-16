@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import { useLang } from "../../hooks/useLang";
-import { Words } from "../../const/Words";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useLang } from "../../hooks/useLang";
 import { getHref } from "../../features/getHref";
+import { Words } from "../../const/Words";
 import "./CategoryList.scss";
 
 type Category = {

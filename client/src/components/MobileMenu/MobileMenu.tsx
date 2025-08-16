@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { LangSwitch, MainPhone, NavBar } from "../"
-import "./MobileMenu.scss";
 import type { AppDispatch, RootState } from "../../store/strore";
 import { hideMobileMenu } from "../../store/slices/mobileMenuSlice";
+import { LangSwitch, MainPhone, NavBar } from "../"
+import "./MobileMenu.scss";
 
 export const MobileMenu = () => {
 

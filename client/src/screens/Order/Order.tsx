@@ -1,17 +1,17 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useLang } from "../../hooks/useLang"
-import type { AppDispatch, RootState } from "../../store/strore";
-import { Link, useParams } from "react-router-dom";
-import { getHref } from "../../features/getHref";
-import { NotFound404 } from "../NotFound404/NotFound404";
 import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../store/strore";
 import { setOrder } from "../../store/slices/orderSlice";
+import { useLang } from "../../hooks/useLang"
+import { getHref } from "../../features/getHref";
+import { isoDateToString } from "../../features/isoDateToString";
+import { NotFound404 } from "../NotFound404/NotFound404";
 import { Loader, OrderList } from "../../components";
+import { CheckOutMeta } from "../../schimas/CheckOutSchema";
+import { shops } from "../../const/Shops";
 import { Words } from "../../const/Words";
 import "./Order.scss";
-import { shops } from "../../const/Shops";
-import { CheckOutMeta } from "../../schimas/CheckOutSchema";
-import { isoDateToString } from "../../features/isoDateToString";
 
 export const Order = () => {
 
