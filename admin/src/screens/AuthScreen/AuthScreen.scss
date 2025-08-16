@@ -1,0 +1,13 @@
+.auth-form {
+    width: 90%;
+    max-width: 100mm;
+    box-sizing: border-box;
+    border: 1px solid var(--base-color);
+    border-radius: 1em;
+    padding: 1em;
+
+    &__title {
+        text-align: center;
+        padding: 0 .5em 1em .5em;
+    }
+}

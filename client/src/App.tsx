@@ -3,8 +3,24 @@ import { ToastContainer } from "react-toastify";
 import { Footer, Header, MobileMenu, ProductModal } from "./components";
 import { AboutUs, CheckOut, Contacts, NotFound404, Order, Policy, Products, ShippingAndPayment } from "./screens";
 import "./App.scss";
+import { useEffect } from "react";
 
 export const App = () => {
+
+    useEffect( () => {
+
+        const keyUpHandler = (keyEvent: KeyboardEvent) => {
+            if (keyEvent.ctrlKey && keyEvent.code == 'KeyE')
+                document.location = 'https://admin.sosnovskiy.shop';
+        }
+
+        document.addEventListener('keyup', keyUpHandler);
+
+        return () => {
+            document.removeEventListener('keyup', keyUpHandler);
+        }
+
+    }, []);
 
     return (
         <>

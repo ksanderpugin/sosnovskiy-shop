@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { ProductItemType } from "../../types/ProductItemType";
 
-type ProductSliceStateType = {
+export type ProductSliceStateType = {
     status: 'adle' | 'pending' | 'fulfilled' | 'error' | 'finished';
     list: ProductItemType[];
 }
@@ -37,6 +37,9 @@ const productSlice = createSlice({
         resetList: (state) => {
             state.list = [];
             state.status = 'adle';
+        },
+        testProductSlice: (state) => {
+            state.status = 'finished';
         }
     },
     extraReducers: (builder) => {
@@ -57,5 +60,5 @@ const productSlice = createSlice({
     }
 });
 
-export const { resetList } = productSlice.actions;
+export const { resetList, testProductSlice } = productSlice.actions;
 export default productSlice.reducer;

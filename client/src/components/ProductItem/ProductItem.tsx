@@ -20,10 +20,8 @@ export const ProductItem = ({id, title, image, price}: PropTypes) => {
             state.products.list.find( item => item.id === id) 
     );
 
-    if (!product) return;
-    
     const clickHandler = () => {
-        dispatch(showProductModal(product));
+        if (product) dispatch(showProductModal(product));
     }
 
     return (
@@ -36,7 +34,7 @@ export const ProductItem = ({id, title, image, price}: PropTypes) => {
                 <span>{price}</span>
                 грн/kg
             </p>
-            <ToBasketButton id={id} packId={product.packs.length > 1 ? undefined : 0} price={price}/>
+            {product && <ToBasketButton id={id} packId={product.packs.length > 1 ? undefined : 0} price={price}/>}
         </div>
     );
 }

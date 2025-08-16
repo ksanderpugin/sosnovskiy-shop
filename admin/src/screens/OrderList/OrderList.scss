@@ -1,0 +1,31 @@
+.order-list{
+  flex:1;
+  min-height: calc(100vh - 5em);
+
+  &__table {
+    border-collapse: collapse;
+    margin: 0 auto;
+
+    & tbody > tr {
+      background-color: rgba(255, 255, 255, 1);
+      cursor: pointer;
+      transition: background-color .3s;
+
+      &:hover {
+        background-color: rgba(55,4,1,0.1);
+      }
+    }
+
+    & th {
+      font-size: .8em;
+      background-color: rgba(55,4,1,0.2);
+      padding-top: 1em;
+      padding-bottom: .25em;
+    }
+
+    & td {
+      padding: .75em;
+      border-bottom: 1px solid var(--base-color);
+    }
+  }
+}

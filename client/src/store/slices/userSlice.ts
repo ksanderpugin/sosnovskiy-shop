@@ -20,7 +20,7 @@ const initialState: IUser = JSON.parse(savedUserJSON || 'false') || {
     lastName: '',
     phone: '',
     contactType: '0',
-    deliveryType: 'npa',
+    deliveryType: 'npo',
     authorized: false
 }
 

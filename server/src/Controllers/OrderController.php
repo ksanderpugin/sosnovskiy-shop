@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Services\Data;
 use App\Views\View;
 use App\bots\SosnovskiyBot;
+use App\Models\User;
 
 class OrderController {
 
@@ -50,7 +51,7 @@ class OrderController {
             'Contact by: ' . $order->getContactByStr() . PHP_EOL . 
             'Phone: ' . $order->phone . PHP_EOL . 
             'Delivery: ' . $order->getDeliveryTypeStr() . PHP_EOL .
-            'Page: /order/' . $order->number
+            'Page: https://sosnovskiy.shop/order/' . $order->number
         );
 
         $h = date('H') + date('I');
@@ -100,5 +101,23 @@ class OrderController {
                 'error' => 'Order not found'
             ]);
         }
+    }
+
+    public function showList() {
+        $user = User::getAuth();
+        if (!$user) {
+            View::renderJSON([
+                'ok' => false,
+                'error' => 'need login'
+            ]);
+            return;
+        }
+
+        $state = $_GET['state'] ?? 'all';
+        $date = $_GET['date'] ?? 'all';
+        View::renderJSON([
+            'ok' => true,
+            'orders' => Order::fetchByParams($state, $date)
+        ]);
     }
 }

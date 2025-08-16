@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { BasketItem } from "../../types/BasketItem.types";
 
-type BasketStateType = {
+export type BasketStateType = {
     list: Record<string, BasketItem>;
 }
 

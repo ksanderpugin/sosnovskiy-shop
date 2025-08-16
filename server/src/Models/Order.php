@@ -44,6 +44,28 @@ class Order extends DatabaseModel {
         return null;
     }
 
+    public static function fetchByParams($state = 'all', $date='all') {
+        $params = [];
+        if ($state !== 'all') {
+            $params['state'] = self::getStateIndex($state);
+        }
+        if ($date !== 'all') {
+            $params['date_delivery'] = $date;
+        }
+        $query = 'SELECT * FROM `' . static::getTableName() . '`';
+        if (count($params) == 2) {
+            $query .= ' WHERE `state` = :state AND `date_delivery` = :date_delivery';
+        } else if (count($params) > 0) {
+            $field = array_keys($params)[0];
+            $query .= " WHERE `$field` = :$field "; 
+        }
+        $query .= ' LIMIT 20';
+        $res = Database::getInst()->execute($query, $params);
+        $return = [];
+        foreach($res as $item) $return[] = static::createObjectFromDBArray($item);
+        return $return;
+    }
+
     private function __construct(int $id, string $number, string $clientName, string $phone, string $dateCreate, string $dateDelivery, int $deliveryType, int $contactType, int $state, int $payType, int $payState, array $basket, array $deliveryData)
     {
         $this->id = $id;
@@ -60,6 +82,19 @@ class Order extends DatabaseModel {
         $this->payState = $payState;
         $this->basket = $basket;
         $this->deliveryData = $deliveryData;
+    }
+
+    private static function getStateIndex(string $state): int {
+        return match($state){
+            'new' => 0,
+            'in-process' => 1,
+            'confirmed' => 2,
+            'packed' => 3,
+            'sent' => 4,
+            'completed' => 5,
+            'cancelled' => 9,
+            default => -1
+        };
     }
 
     protected static function getTableName() : string {
