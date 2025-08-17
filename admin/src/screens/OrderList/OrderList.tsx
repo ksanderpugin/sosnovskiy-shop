@@ -2,11 +2,12 @@ import {useEffect, useState} from "react";
 import type {Order} from "../../types/Order.types.ts";
 import {loadOrders} from "../../features/loadOrders.ts";
 import {toast} from "react-toastify";
-import {useSelector} from "react-redux";
-import type {RootState} from "../../store/store.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {type AppDispatch, type RootState} from "../../store/store.ts";
 import {getStateByIndex} from "../../features/getStateByIndex.ts";
 import "./OrderList.scss";
 import {useNavigate} from "react-router-dom";
+import { logout } from "../../store/slices/userSlice.ts";
 
 
 export const OrderList = () => {
@@ -17,14 +18,19 @@ export const OrderList = () => {
 
     const pageNavigator = useNavigate();
 
+    const dispatch = useDispatch<AppDispatch>();
+
     useEffect(() => {
         loadOrders(
             `${id}:${token}`,
             (orders: Order[]) => {setList(orders);},
-            (error) => {toast.error(error)},
+            (error) => {
+                if (error === 'need login') dispatch(logout());
+                else toast.error(error)
+            },
             'new'
         );
-    }, [id, token]);
+    }, [id, token, dispatch]);
 
     console.log(list);
 

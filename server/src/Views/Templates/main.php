@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/media/logo/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?=$title ?? 'Сосновьский 🥩 Інтернет магазин крафтової ковбасної продукції'?></title>
-    <link rel="stylesheet" crossorigin href="/assets/index-BVKgTio_.css">
-    <script type="module" defer crossorigin src="/assets/index-B3fanbVr.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DtVLFNHz.css">
+    <script type="module" defer crossorigin src="/assets/index-wOpAivJb.js"></script>
   </head>
   <body>
     <div id="root">
