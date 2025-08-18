@@ -4,6 +4,11 @@ require __DIR__ . '/vendor/autoload.php';
 
 use App\Views\View;
 
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    View::renderJSON();
+    return;
+}
+
 
 $route = $_GET['route'] ?? '';
 $patterns = require __DIR__ . '/src/routes.php';

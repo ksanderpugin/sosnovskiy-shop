@@ -1,14 +1,17 @@
+import type {OrderType} from "../types/Order.types.ts";
 import {store} from "../store/store.ts";
 
-export const loadOrder = async (number: string) => {
+export const sendUpdatedOrder = async (order: OrderType) => {
 
     const {id, token} = store.getState().user;
 
     try {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}order/${number}`, {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}order/${order.number}`, {
+            method: 'PUT',
             headers: {
                 Authorization: `Bearer ${id}:${token}`,
-            }
+            },
+            body: JSON.stringify(order)
         });
 
         if (!response.ok) {
@@ -23,5 +26,4 @@ export const loadOrder = async (number: string) => {
         console.log(error);
         throw error;
     }
-
 }

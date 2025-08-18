@@ -1,8 +1,8 @@
-import type {Order} from "../types/Order.types.ts";
+import type {OrderType} from "../types/Order.types.ts";
 
 export const loadOrders = (
     token: string,
-    resp?: (orders: Order[]) => void,
+    resp?: (orders: OrderType[]) => void,
     rej?: (error: string) => void,
     state?: string,
     date?: string

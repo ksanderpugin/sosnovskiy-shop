@@ -1,12 +1,20 @@
+import type {AppDispatch} from "../../store/store.ts";
+import {useDispatch} from "react-redux";
+import {logout} from "../../store/slices/userSlice.ts";
+
 type PropTypes = {
     name: string;
-    onClick?: () => void;
 }
 
-export const LogoutButton = ({name, onClick}: PropTypes) => {
+export const LogoutButton = ({name}: PropTypes) => {
 
+    const dispatch = useDispatch<AppDispatch>();
+
+    const onClickHandler = () => {
+        dispatch(logout());
+    }
 
     return (
-        <a className="logout" onClick={onClick}>{name}</a>
+        <a className="logout" onClick={onClickHandler}>{name}</a>
     )
 }

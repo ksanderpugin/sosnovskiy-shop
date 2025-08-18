@@ -31,7 +31,7 @@ body {
 }
 
 input, select, textarea {
-    border: 1px solid var(--base-color);
+    border: none;
     background-color: opacity;
     padding: .5em;
     width: 100%;
@@ -39,16 +39,12 @@ input, select, textarea {
     border-radius: .5em;
     outline: none;
 
-    &:focus {
-        box-shadow: 0 0 4px rgba(55,4,1,0.7);
-    }
-
     &::placeholder {
         color: #977;
     }
 }
 
-button {
+button, .button {
     display: block;
     background-color: var(--na-color);
     color: var(--bt);
@@ -71,4 +67,8 @@ button {
 .wrapper {
     max-width: 1200px;
     margin: 0 auto;
+}
+
+td.num {
+    text-align: right;
 }

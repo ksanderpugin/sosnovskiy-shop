@@ -1,0 +1,27 @@
+.client-basket {
+  border-collapse: collapse;
+  margin: 2em auto 0 auto;
+
+  & td, & th {
+    padding: .5em;
+    border: 1px dotted gray;
+  }
+
+  &-item__edits > p {
+    display: flex;
+    gap: .5em;
+
+    & > span {
+      display: block;
+      width: 1.2em;
+      text-align: center;
+      border: 1px solid lightgray;
+      border-radius: .5em;
+      cursor: pointer;
+
+      &:hover {
+        background-color: lightgray;
+      }
+    }
+  }
+}

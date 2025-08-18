@@ -11,9 +11,10 @@ use App\Models\User;
 
 class OrderController {
 
-    public function main($number = '') {
+    public function main($number = '') {        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') $this->create();
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') $this->show($number);
+        else if ($_SERVER['REQUEST_METHOD'] === 'GET') $this->show($number);
+        else if ($_SERVER['REQUEST_METHOD'] === 'PUT') $this->update($number);
     }
 
     public function create(): void {
@@ -91,6 +92,12 @@ class OrderController {
     public function show($number) {
         $order = Order::getByNumber($number);
         if ($order) {
+            $user = User::getAuth();
+            if ($user) {
+                $order->state = 1;
+                $order->save();
+            }
+
             View::renderJSON([
                 'ok' => true,
                 'order' => $order
@@ -101,6 +108,36 @@ class OrderController {
                 'error' => 'Order not found'
             ]);
         }
+    }
+
+    public function update($number) {
+        $user = User::getAuth();
+        if (!$user) {
+            View::renderJSON([
+                'ok' => false,
+                'error' => 'need login'
+            ]);
+            return;
+        }
+        $order = Order::getByNumber($number);
+        if (!$order) {
+            View::renderJSON([
+                'ok' => false,
+                'error' => 'Order not found'
+            ]);
+            return;
+        }
+        $data = Data::getRawData(true);
+        $order->basket = $data['basket'] ?? [];
+        $order->clientName = $data['clientName'] ?? '';
+        $order->phone = $data['phone'] ?? '';
+        $order->dateDelivery = $data['dateDelivery'] ?? date('Y-m-d', time() + 24*3600);
+        $order->state = $data['state'] ?? 0;
+        $order->save();
+        View::renderJSON([
+            'ok' => true,
+            'order' => $order
+        ]);
     }
 
     public function showList() {

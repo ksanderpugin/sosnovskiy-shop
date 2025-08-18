@@ -1,0 +1,33 @@
+.order-info {
+  display: grid;
+  grid-template-columns: 1fr auto;
+
+  & > p {
+    padding: .75em .5em .25em 1em;
+    border-bottom: 1px solid gray;
+    line-height: 16pt;
+
+    &:nth-child(odd) {
+      white-space: nowrap;
+      font-size: .8em;
+      font-weight: bold;
+      margin-top: .2em;
+    }
+
+    &:last-child {
+      display: flex;
+      flex-direction: column;
+      gap: .3em;
+      & u {
+        margin-right: .4em;
+        text-decoration: none;
+      }
+      & i {
+        font-style: normal;
+      }
+    }
+  }
+
+
+
+}

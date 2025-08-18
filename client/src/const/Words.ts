@@ -102,6 +102,11 @@ export const Words = {
             uk: 'Обробляється',
             en: 'In progress',
             ru: 'Обрабатывается'
+        },
+        {
+            uk: 'підтверджено',
+            en: 'confirmed',
+            ru: 'подтверждён'
         }
     ],
     deliveryTypes: [

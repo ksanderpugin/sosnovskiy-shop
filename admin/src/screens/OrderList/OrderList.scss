@@ -28,4 +28,18 @@
       border-bottom: 1px solid var(--base-color);
     }
   }
+
+  &__header {
+    display: flex;
+    gap: 3em;
+    padding: .5em;
+    border-bottom: 1px solid var(--base-color);
+    margin-bottom: .5em;
+
+    & > div {
+      display: flex;
+      align-items: center;
+      gap: .5em;
+    }
+  }
 }
