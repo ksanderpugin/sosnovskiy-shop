@@ -1,4 +1,4 @@
 import { Header } from "./Header/Header";
-import { LogoutButton } from "./LoginButton/LogoutButton";
+import { LogoutButton } from "./LogoutButton/LogoutButton";
 
 export { Header, LogoutButton }

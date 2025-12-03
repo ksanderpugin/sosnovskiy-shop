@@ -1,0 +1,83 @@
+.np-modal {
+  padding: 1em;
+  max-width: 150mm;
+  min-width: 100mm;
+  background-color: #fff;
+  border-radius: 1em;
+
+  &-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &-header {
+    font-size: .8em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    border-bottom: 1px dotted #ccc;
+
+    & > span {
+      font-weight: bold;
+      margin-right: .5em;
+    }
+  }
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    position: relative;
+
+    & > p:last-child {
+      display: flex;
+      justify-content: center;
+    }
+
+    &__label {
+      font-size: .8em;
+      font-weight: bold;
+    }
+
+    & input[name="city"] {
+      border: 1px solid #ccc;
+
+      &:focus {
+        box-shadow: 0 0 3px rgba(0,0,0,0.5);
+      }
+    }
+
+    &__button {
+      background-color: #33ff33;
+    }
+
+    &__city-list {
+      position: absolute;
+      bottom: 100%;
+      width: 100%;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+
+      & > p {
+        padding: .5em;
+        border-bottom: 1px dotted #ccc;
+
+        &:hover {
+          background-color: #ddd;
+        }
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}

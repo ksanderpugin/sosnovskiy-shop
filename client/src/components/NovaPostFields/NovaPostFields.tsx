@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../store/strore";
-import Select, { type SelectInstance, type StylesConfig } from 'react-select';
+import { useEffect, useMemo, useState } from "react";
+import {useDispatch, useSelector} from "react-redux";
+import type {AppDispatch, RootState} from "../../store/strore";
+import Select, { type StylesConfig } from 'react-select';
 import { useLang } from "../../hooks/useLang";
 import { useDebounce } from "../../hooks/useDebounce";
 import { CheckOutMeta } from "../../schimas/CheckOutSchema"
@@ -14,19 +14,21 @@ import type { NovaPostCities } from "../../types/NovaPostCities.types";
 import type { NovaPostOffice } from "../../types/NovaPostOffice.types";
 import { Words } from "../../const/Words";
 import "./NovaPostFields.scss";
+import {setCityRef} from "../../store/slices/userSlice.ts";
+
 
 export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
 
     const lang = useLang() || 'uk';
-    const {city: defCity, address} = useSelector( (state: RootState) => state.user );
+    const {city: defCity, address, cityRef} = useSelector( (state: RootState) => state.user );
     const [city, setCity] = useState(defCity || '');
     const debounceCity = useDebounce(city, 500);
     const [cities, setCities] = useState<NovaPostCities[]>([]);
-    const [selectedCity, setSelectedCity] = useState({ref: '', name: ''});
+    const [selectedCity, setSelectedCity] = useState({ref: cityRef, name: ''});
     const [offices, setOffices] = useState<NovaPostOffice[]>([]);
     const [citiesShown, setCitiesShown] = useState(false);
 
-    const selectRef = useRef(null);
+    const dispatch = useDispatch<AppDispatch>();
 
     const options = useMemo( () => {
         if (deliveryType === 'npo') 
@@ -40,12 +42,22 @@ export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
         return [];
     }, [deliveryType, offices]);
 
+    const defOption = useMemo( () => {
+        if (address && options.length) {
+            return options.find( item => item.value === address ) || '';
+        }
+        return '';
+    },  [address, options]);
+
     const selectStyles: StylesConfig = {
+        container: (styles) => ({ ... styles, minHeight: '2em'}),
         control: (styles, state) => ({ ...styles, 
             backgroundColor: state.isFocused ? 'rgba(255,255,255,0.7)' : 'transparent', 
             border: '1px solid var(--burgundy-color)',
             borderRadius: '.5em',
             boxShadow: state.isFocused ? '0 0 .2em var(--burgundy-color)' : 'none',
+            width: '100%',
+            position: 'absolute',
             '&:hover': {
                 
             }
@@ -67,7 +79,7 @@ export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
                 color: 'var(--burgundy-color)'
             }
         }),
-        menu: (styles) => ({ ...styles, zIndex: '3'}),
+        menu: (styles) => ({ ...styles, zIndex: '4'}),
         option: (styles, state) => ({...styles, backgroundColor: state.isFocused ? 'rgba(55,4,1,0.1)' : 'transparent'})
     }
 
@@ -98,14 +110,6 @@ export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
         );
     }, [selectedCity]);
 
-    useEffect( () => {
-        if (options.length && selectRef.current) {
-            const inp = selectRef.current as SelectInstance;
-            inp.focus();
-            inp.clearValue();
-        }
-    }, [options]);
-
     const selectCityHandler = (el: HTMLParagraphElement) => {
         const ref = el.dataset.ref;
         const name = el.textContent;
@@ -114,6 +118,7 @@ export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
             setSelectedCity({ref, name});
             setCity(name);
             setCities([]);
+            dispatch(setCityRef({ref, name}));
         }
     }
 
@@ -153,7 +158,7 @@ export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
             {deliveryType === 'npa' && <CheckOutFormField                
                 id={CheckOutMeta.address.id}
                 label={CheckOutMeta.address.label[lang]}
-                name={CheckOutMeta.address.name}
+                name={deliveryType}
                 defaultValue={address}
                 placeholder={CheckOutMeta.address.placeholder[lang]} />}
 
@@ -162,17 +167,17 @@ export const NovaPostFields = ({deliveryType}: {deliveryType: string}) => {
                     <label>
                         {deliveryType === 'npo' ? Words.npOffice[lang] : Words.npTerminal[lang]}
                     </label>
-                    {options.length > 0 && <Select 
-                        ref={selectRef}
-                        name={deliveryType} 
+                    {options.length > 0 && <Select
+                        name={deliveryType}
                         options={options} 
-                        styles={selectStyles} 
-                        isSearchable 
+                        styles={selectStyles}
+                        isSearchable
                         isClearable
-                        placeholder="" 
+                        placeholder=""
+                        defaultValue={defOption}
                         menuPlacement="top" />}
-                    {options.length === 0 && <input 
-                        name={deliveryType} 
+                    {options.length === 0 && <input
+                        name={deliveryType}
                         type="text"
                         defaultValue={address} />}
                 </div>}

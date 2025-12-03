@@ -1,14 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { decodeString, encodeString } from "../../features/stringCoders";
+import type {TUser} from "../../types/TUser.types.ts";
 
 const savedUserSateJSON = sessionStorage.getItem('ud');
 const savedUserSate = savedUserSateJSON && JSON.parse(decodeString(savedUserSateJSON));
 
-const initialState = savedUserSate || {
+const initialState: TUser = savedUserSate || {
     id: '',
     name: '',
     token: '',
-    role: ''
+    role: 'user'
 }
 
 const userSlice = createSlice({
@@ -30,7 +31,7 @@ const userSlice = createSlice({
             state.id = '';
             state.name = '';
             state.token = '';
-            state.role = '';
+            state.role = 'user';
             sessionStorage.removeItem('ud');
         }
     }

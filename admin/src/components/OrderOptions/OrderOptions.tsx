@@ -4,12 +4,14 @@ type PropTypes = {
     addPositionHandler: () => void;
     postponeOrder: () => void;
     confirmOrder: () => void;
+    cancelOrder: () => void;
 }
 
-export const OrderOptions = ({addPositionHandler, postponeOrder, confirmOrder}: PropTypes) => {
+export const OrderOptions = ({addPositionHandler, postponeOrder, confirmOrder, cancelOrder}: PropTypes) => {
     return (
         <ul  className="order-options">
             <li onClick={addPositionHandler} className="button">Добавить</li>
+            <li onClick={cancelOrder} className="button">Отменить</li>
             <li onClick={postponeOrder} className="button">Отложить</li>
             <li onClick={confirmOrder} className="button">Подтвердить</li>
         </ul>

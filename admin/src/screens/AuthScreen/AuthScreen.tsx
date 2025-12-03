@@ -5,6 +5,7 @@ import { toast } from "react-toastify"
 import { Form } from "../../components/Form/Form"
 import { AuthMeta, AuthSchema } from "../../schemas/AuthSchema"
 import "./AuthScreen.scss"
+import {useEffect} from "react";
 
 export const AuthScreen = () => {
 
@@ -29,6 +30,9 @@ export const AuthScreen = () => {
             toast.error('Internet connect error. Try again later.')
         });
     }
+
+    useEffect(() => {
+    });
 
     return (
         <div className="auth-form">

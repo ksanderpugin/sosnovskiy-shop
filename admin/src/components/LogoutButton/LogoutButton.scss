@@ -1,0 +1,18 @@
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: .5em;
+
+  & > a {
+    display: block;
+
+    & > svg {
+      width: 1.5em;
+      height: auto;
+
+      & path {
+        stroke: #fff;
+      }
+    }
+  }
+}

@@ -1,15 +1,14 @@
 import {useEffect, useState} from "react";
-import type {OrderType} from "../../types/Order.types.ts";
-import {loadOrders} from "../../features/loadOrders.ts";
-import {toast} from "react-toastify";
 import {useDispatch, useSelector} from "react-redux";
-import {type AppDispatch, type RootState} from "../../store/store.ts";
-import {getStateByIndex} from "../../features/getStateByIndex.ts";
-import "./OrderList.scss";
 import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
+import {RuDatePicker} from "../../components/RuDatePicker/RuDatePicker.tsx";
 import { logout } from "../../store/slices/userSlice.ts";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import {loadOrders} from "../../features/loadOrders.ts";
+import {getStateByIndex} from "../../features/getStateByIndex.ts";
+import type {OrderType} from "../../types/Order.types.ts";
+import type {AppDispatch, RootState} from "../../store/store.ts";
+import "./OrderList.scss";
 
 
 export const OrderList = () => {
@@ -25,12 +24,19 @@ export const OrderList = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
+        date?.setHours(12,0,0,0);
         loadOrders(
             `${id}:${token}`,
             (orders: OrderType[]) => {setList(orders);},
             (error) => {
                 if (error === 'need login') dispatch(logout());
-                else toast.error(error)
+                else {
+                    toast.error(error);
+                    setTimeout( () => {
+                        const d = new Date(date || Date.now());
+                        setDate(d);
+                    }, 5000);
+                }
             },
             orderState,
             date?.toISOString().substring(0,10) || 'all'
@@ -54,8 +60,9 @@ export const OrderList = () => {
                 </div>
                 <div>
                     <p>shipping date:</p>
-                    <DatePicker selected={date}
-                        onChange={(d) => setDate(d)}
+                    <RuDatePicker
+                        selected={date}
+                        onChange={setDate}
                         dateFormat="dd.MM.yyyy"
                         placeholderText="Выберите дату"/>
                 </div>

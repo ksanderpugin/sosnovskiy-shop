@@ -32,7 +32,7 @@ class OrderController {
             $data['first-name'] . ' ' . $data['last-name'],
             $data['phone'],
             $basket,
-            $data['delivery-type'] == $types[$data['delivery-type']],
+            $types[$data['delivery-type']],
             $data['contact-by'],
             $data['dispatch-date'],
             array_key_exists('shop', $data) ? 
@@ -133,6 +133,7 @@ class OrderController {
         $order->phone = $data['phone'] ?? '';
         $order->dateDelivery = $data['dateDelivery'] ?? date('Y-m-d', time() + 24*3600);
         $order->state = $data['state'] ?? 0;
+        $order->deliveryData = $data['deliveryData'] ?? [];
         $order->save();
         View::renderJSON([
             'ok' => true,

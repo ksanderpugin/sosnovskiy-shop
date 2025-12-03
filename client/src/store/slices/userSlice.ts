@@ -8,6 +8,7 @@ interface IUser {
     deliveryType: string;
     shop?: string;
     city?: string;
+    cityRef?: string;
     address?: string;
     authorized?: boolean;
     token?: string;
@@ -38,9 +39,14 @@ const userSlice = createSlice({
             state.city = action.payload.city;
             state.address = action.payload.address;
             localStorage.setItem('ud', JSON.stringify(state));
+        },
+        setCityRef: (state, action) => {
+            state.cityRef = action.payload.ref || '';
+            state.city = action.payload.name || '';
+            localStorage.setItem('ud', JSON.stringify(state));
         }
     }
 });
 
-export const {setUserData} = userSlice.actions;
+export const { setUserData, setCityRef } = userSlice.actions;
 export default userSlice.reducer;

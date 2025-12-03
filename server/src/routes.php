@@ -19,6 +19,9 @@ return [
     '~^api/login$~' => [\App\Controllers\UserController::class, 'login'],
 
 
+    '~^api/testsocet$~' => [\App\Controllers\MainController::class, 'testSocet'],
+    '~^api/sendMessageWithSleep$~' => [\App\Controllers\MainController::class, 'doSleep'],
+
 
     '~^(ru|en)?\/?.*$~' => [\App\Controllers\MainController::class, 'main'],
 ];

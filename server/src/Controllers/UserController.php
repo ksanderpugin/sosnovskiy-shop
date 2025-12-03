@@ -12,7 +12,7 @@ class UserController {
     public function login(): void {
         $data = Data::getRawData();
 
-        if (!Security::checkMail($data->email ?? '')) {
+        if (!Security::checkPhone($data->phone ?? '')) {
             View::renderJSON([
                 'ok' => false,
                 'error' => 'Bad auth data'
@@ -28,11 +28,11 @@ class UserController {
             return;
         }
 
-        $user = User::getByEmail($data->email);
+        $user = User::getByPhone($data->phone);
         if (is_null($user)) {
             View::renderJSON([
                 'ok' => false,
-                'error' => 'Invalid email or password'
+                'error' => 'Invalid phone or password'
             ]);
             return;
         }
@@ -45,7 +45,7 @@ class UserController {
                 'user' => [
                     'firstName' => $user->firstName,
                     'lastName' => $user->lastName,
-                    'role' => $user->getId() == 1 ? 'admin' : 'manager',
+                    'role' => $user->getRole(),
                     'token' => $user->getToken(),
                     'id' => $user->getId() . ':' . $key
                 ]
@@ -53,7 +53,7 @@ class UserController {
         } else {
             View::renderJSON([
                 'ok' => false,
-                'error' => 'Incorrect email or password'
+                'error' => 'Incorrect phone or password'
             ]);
         }
     }

@@ -58,7 +58,13 @@ export const Order = () => {
     }
 
     const updateOrderInfo = (info: Record<string, string>) => {
-        if (order) setOrder({...order, ...info});
+        if (order) {
+            if (info.city) {
+                setOrder({...order, deliveryData: info});
+            } else {
+                setOrder({...order, ...info});
+            }
+        }
     }
 
     const addPositionToBasket = (data: string | null) => {
@@ -96,6 +102,13 @@ export const Order = () => {
             })
     }
 
+    const confirmCanceledOrder = () => {
+        const needCanceled = confirm('Отменить заказ?');
+        if (needCanceled) {
+            updateOrder(8);
+        }
+    }
+
     if (!number) return (<h1>Oops, bad order link</h1>);
 
     if (loading) return <div className="loader-wrapper"><div className="loader"></div></div>;
@@ -108,6 +121,7 @@ export const Order = () => {
                 addPositionHandler={showAddPositionToast}
                 postponeOrder={() => {updateOrder(0)}}
                 confirmOrder={() => updateOrder(2)}
+                cancelOrder={confirmCanceledOrder}
             />
         </div>
     );

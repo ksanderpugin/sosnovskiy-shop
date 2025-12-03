@@ -7,12 +7,14 @@ import { AuthScreen } from "./screens/AuthScreen/AuthScreen";
 import { ToastContainer } from "react-toastify";
 import {OrderList} from "./screens/OrderList/OrderList.tsx";
 import {Order} from "./screens/Order/Order.tsx";
-import { useEffect } from "react";
+import {useEffect} from "react";
 import { fetchProducts } from "./store/slices/productsSlice.ts";
+import {MainScreen} from "./screens/MainScreen/MainScreen.tsx";
+import {PackList} from "./screens/PackList/PackList.tsx";
 
 export const App = () => {
 
-    const userName = useSelector( (state: RootState) => state.user.name );
+    const {name: userName, role: userRole} = useSelector( (state: RootState) => state.user );
     const productLoadState = useSelector( (state: RootState) => state.products.state );
 
     const dispatch = useDispatch<AppDispatch>();
@@ -26,14 +28,28 @@ export const App = () => {
         }
     }, [productLoadState, dispatch]);
 
+    // const MainElement = useMemo( () => {
+    //     switch ( userRole ) {
+    //         case 'admin':
+    //             return <OrderList />;
+    //
+    //         case 'manager':
+    //             return <ShopAppMainWindow />;
+    //     }
+    // }, [ userRole ] );
+
     return (
         <>
-            <Header userName={userName} />
+            <Header userName={userName} userRole={userRole} />
             <main className="main wrapper">
 
                 {userName && <Routes>
-                    <Route path="/" element={<OrderList />} />
+                    <Route path="/" element={<MainScreen role={userRole} />} />
+
+                    <Route path="/orderList" element={<OrderList />} />
                     <Route path="/order/:number" element={<Order />} />
+
+                    <Route path="/packList" element={<PackList />} />
                 </Routes>}
 
                 {!userName && <AuthScreen />}

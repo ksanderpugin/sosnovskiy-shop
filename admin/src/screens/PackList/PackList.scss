@@ -1,0 +1,27 @@
+.pack-list {
+  width: 100%;
+  flex: 1;
+  min-height: calc(100vh - 5em);
+
+  & > header {
+    border-bottom: 2px solid #ccc;
+
+    & input {
+      border-bottom:  1px solid #ccc;
+      border-radius: 0;
+      margin: 0.5em;
+      width: 7em;
+      text-align: center;
+    }
+  }
+
+  & > table {
+    margin: 1em auto;
+    border-collapse: collapse;
+
+    & td, & th {
+      border: 1px solid #aaa;
+      padding: .5em;
+    }
+  }
+}

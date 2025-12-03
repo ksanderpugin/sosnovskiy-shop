@@ -49,13 +49,13 @@ export const CheckOutForm = () => {
         data.append(et.name, et.value);
         const [, errs] = validateCheckoutForm(data, lang, et.name);
         setErrors({...errors, ...errs});
-        if (Object.values(errs)[0] !== false) {
-            et.focus();
-            if (et.name === 'phone') {
-                const index = et.value.search(/\d[^\d]*$/);
-                et.setSelectionRange(index+1, index+1);
-            } else et.setSelectionRange(et.value.length, et.value.length);
-        }
+        // if (Object.values(errs)[0] !== false) {
+        //     et.focus();
+        //     if (et.name === 'phone') {
+        //         const index = et.value.search(/\d[^\d]*$/);
+        //         et.setSelectionRange(index+1, index+1);
+        //     } else et.setSelectionRange(et.value.length, et.value.length);
+        // }
     }
 
     const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {

@@ -1,10 +1,11 @@
-import { useMemo, useRef } from 'react';
+import {useEffect, useMemo, useRef} from 'react';
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodEffects } from 'zod';
 import ReCAPTCHA from "react-google-recaptcha";
 import { type IFormField } from '../../types/IFormField.types';
 import './Form.scss';
+import IMask from "imask";
 
 interface PropTypes {
     schema: z.AnyZodObject,
@@ -27,12 +28,25 @@ export const Form = ({schema, meta, onSubmitHandler, buttonTitle, schemaRefine, 
         resolver: zodResolver(schemaRefine || schema)
     });
 
+    useEffect( () => {
+        const phoneEl = document.getElementById('phone');
+        if (phoneEl) {
+            const mask = IMask(phoneEl, {
+                mask: "{+38} (\\000) 000-00-00",
+                lazy: false,
+            });
+            mask.on('complete', () => {
+                phoneEl.blur();
+            })
+        }
+    }, []);
+
 
     const fields = useMemo( () => {
         const inputs = [];
         for (const key in schema.shape) {
             const field = meta[key];
-            const input = <input 
+            const input = <input
                             {...register(key)} 
                             id={key}
                             type={field.type} 

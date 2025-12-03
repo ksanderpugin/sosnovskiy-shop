@@ -1,4 +1,4 @@
-import type { ProductPackType } from "./ProductPack.types";
+import type { ProductPackType } from "./ProductPack.types.ts";
 
 export type ProductItemType = {
     id: number;

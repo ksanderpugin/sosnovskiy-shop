@@ -3,11 +3,12 @@
     top: 0;
     left: 0;
     right: 0;
-    padding: 1em;
+    padding: 0 1em;
     background-color: var(--base-color);
     color: var(--wt);
 
     & > .wrapper {
+        min-height: 4em;
         display: flex;
         justify-content: space-between;
         align-items: center;

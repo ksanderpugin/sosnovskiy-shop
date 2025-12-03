@@ -25,4 +25,9 @@ class Security {
     public static function checkMail($email) : bool {
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
+
+    public static function checkPhone($phone) : bool {
+        preg_match('~^\+38 \(0\d{2}\) \d{3}\-\d{2}\-\d{2}$~', $phone, $matches);
+        return count($matches) > 0;
+    }
 }
